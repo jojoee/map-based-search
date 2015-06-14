@@ -15,6 +15,9 @@ jQuery(document).ready(function() {
 	var tweetTextId = 'tweet-text';
 	var $tweetText = $('#' + tweetTextId);
 	var $cityText = $('.city-text');
+
+	var $mapLoading  = $('.map-loading');
+	var latestCity;
 	
 	function updateZoomLevel() {
 		config.zoomLevel = stringToInt($zoomLevelInput.val());
@@ -69,18 +72,47 @@ jQuery(document).ready(function() {
 		console.log(title + data);
 	}
 
+	function setInputZoomLevel(num) {
+		$zoomLevelInput.val(num);
+	}
+
+	function setInputLat(num) {
+		$latInput.val(num);
+	}
+
+	function setInputLng(num) {
+		$lngInput.val(num);	
+	}
+
+	function updateInputCity(num) {
+		$cityInput.val(num);
+	}
+
+	/**
+	 * Update zoom level input by config data
+	 */
 	function updateInputZoomLevel() {
 		$zoomLevelInput.val(config.zoomLevel);
 	}
 
+	/**
+	 * Update lat input by config data
+	 */
 	function updateInputLat() {
 		$latInput.val(config.lat);
 	}
 
+	/**
+	 * Update lng input by config data
+	 * @return {[type]} [description]
+	 */
 	function updateInputLng() {
 		$lngInput.val(config.lng);
 	}
 
+	/**
+	 * Update city input by config data
+	 */
 	function updateInputCity() {
 		$cityInput.val(config.city);
 	}
@@ -249,7 +281,7 @@ jQuery(document).ready(function() {
 
 	/**
 	 * [updateAllInputDatas description]
-	 * Update all input data
+	 * Update input data by config data
 	 * @return {[type]} [description]
 	 */
 	function updateAllInputData() {
@@ -388,14 +420,48 @@ jQuery(document).ready(function() {
 
 	$cityForm.on('submit', function(e) {
 		e.preventDefault();
-
+		$mapLoading.fadeIn('slow');
 		cityName = $cityInput.val();
 
-		$.get('/map/get/' + cityName, function(data) {
-			// var tweets = $.parseJSON(data);
-			var tweets = data;
-			console.log(tweets);
-		});
+		if (latestCity.toUpperCase() !== cityName.toUpperCase()) {
+			try {
+				$.get('/map/get/' + cityName, function(data) {
+					var results = $.parseJSON(data);
+					if (debugMode) console.log(results);
+
+					if (results.status === 'OK') {
+						var locations = $.parseJSON(results.data);
+
+						setInputLat(results.lat);
+						setInputLng(results.lng);
+
+						// remove all previous marker on the map
+						removeGoogleMapAllMarkers();
+
+						// add new marker on the map
+						addGoogleMapMarkerWithInfo(locations);
+
+						updateAllConfigData();
+						updateGoogleMap();
+
+						$mapLoading.fadeOut('slow');
+					} else {
+						// if error then ?
+					}
+				});
+
+			} catch(exception){ 
+				// if error then ?
+				
+			} finally {
+				$mapLoading.fadeOut('slow');
+				
+			}
+
+			latestCity = cityName;
+		} else {
+			// do nothing
+		}
 
 		return false;
 	});
@@ -410,10 +476,11 @@ jQuery(document).ready(function() {
 		config = {
 			lat: 13.7563,
 			lng: 100.5018,
-			zoomLevel: 11,
+			zoomLevel: 12,
 			styles: mapStyles.lightDream,
 			city: 'Bangkok'
 		};
+		latestCity = '';
 
 		mapOptions = {
 			center: {

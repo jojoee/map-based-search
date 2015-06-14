@@ -48,37 +48,57 @@ class TwitterHelper {
 	public function searchTweets($args)
 	{
 		$tweets = $this->rawSearchTweets($args);
-
 		$results = array();
 		if (! empty($tweets->statuses))
 		{
 			$tmp = array();
+
 			foreach ($tweets->statuses as $status)
 			{
+				// $tmp['id'] = $status->id;
+				// $tmp['created_at'] = $status->created_at;
+				// $tmp['when'] = $this->convertTwitterTime($status->created_at);
+				// $tmp['text'] = $status->text;
+				// $tmp['user_id'] = $status->user->id;
+				// $tmp['profile_image_url'] = $status->user->profile_image_url;
+				// $tmp['lat'] = $status->geo->coordinates[0];
+				// $tmp['lng'] = $status->geo->coordinates[1];
+
 				$tmp['id'] = $status->id;
-				$tmp['created_at'] = $status->created_at;
-				$tmp['when'] = $this->convertTwitterTime($status->created_at);
-				$tmp['text'] = $status->text;
-				$tmp['user_id'] = $status->user->id;
-				$tmp['profile_image_url'] = $status->user->profile_image_url;
+				$tmp['title'] = $tweets->search_metadata->query;
+				$tmp['content'] = $status->text.' When: '.$this->twitterTimeToReadableTime($status->created_at);
 				$tmp['lat'] = $status->geo->coordinates[0];
 				$tmp['lng'] = $status->geo->coordinates[1];
+				$tmp['iconImage'] = $status->user->profile_image_url;
 
 				$results[] = $tmp;
 			}			
 		}
+		
 		return $results;
 	}
 
 	/**
- 	* [convertTwitterTime description]
+ 	* [twitterTimeToReadableTime description]
 	 * @see http://stackoverflow.com/questions/6823537/best-way-to-change-twitter-api-datetimes-to-a-timestamp
-	 * @see http://stackoverflow.com/questions/16089296/php-convert-datetime-from-twitter-feed
 	 * 
 	 * @param  [type] $statuses [description]
 	 * @return [type]           [description]
 	 */
-	private function convertTwitterTime($str)
+	private function twitterTimeToReadableTime($str)
+	{
+		$datetime = DateTime::createFromFormat('D M j H:i:s O Y', $str);
+		$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
+		return $datetime->format('Y-m-d H:i:s');
+	}
+	
+	/**
+	 * [twiiterTimeToTimestamp description]
+	 * @see http://stackoverflow.com/questions/6823537/best-way-to-change-twitter-api-datetimes-to-a-timestamp
+	 * @param  [type] $str [description]
+	 * @return [type]      [description]
+	 */
+	private function twiiterTimeToTimestamp($str)
 	{
 		$datetime = new DateTime($str);
 		$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
