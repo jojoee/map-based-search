@@ -108,13 +108,24 @@ class MapController extends \BaseController {
 		}
 		else
 		{
-			$geo = $this->getLatLng($city);
-			// if error return empty array
-			if (empty($geo)) die();
-			$lat = $geo['lat'];
-			$lng = $geo['lng'];
+			$record = Tweet::where('city', $city)->first();
+			if ($record)
+			{
+				$lat = $record->lat;
+				$lng = $record->lng;
+			}
+			else
+			{
+				$geo = $this->getLatLng($city);
+				
+				// if error then ?
+				if (empty($geo)) die();
+				$lat = $geo['lat'];
+				$lng = $geo['lng'];				
+			}
 
-			$tweets = $this->getTweetData($city, $geo['lat'], $geo['lng']);
+			$tweets = $this->getTweetData($city, $lat, $lng);
+			
 			// if error then status = 'NOOK'
 			if (empty($tweets))
 			{
