@@ -1,15 +1,17 @@
 # Map Based Search
 
-simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map.
-(**support english only**)
+simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map. (**support english only**)
 
 ## Featured
+
+## Code / Development
 
 - Timezone: Asia/Bangkok
 - PHP Code styling: [Laravel](http://laravel.com/docs/4.2/contributions) (PSR-0 and PSR-1)
 - Javascript Code styling: [Airbnb JavaScript Style Guide() {](https://github.com/airbnb/javascript)
 - PHP DocBlockr: [phpDocumentor](http://phpdoc.org/)
 - Javascript DocBlockr: [JSDoc](http://usejsdoc.org/)
+- Always use uppercase when compare text
 
 ## Acknowledged issue
 
@@ -21,11 +23,10 @@ simple responsive website that allows the user to search for a city  and display
 - PHP unit test
 - Javascript unit test
 - create Laravel database migration & seed
-- sync zoom level
-- redundant resource
-- color schema settings
+- sync zoom level between input and google map
+- add redundant resources
+- color schema setting
 - add security protection
-- sync zoom level input
 - update debug mode
 - update get() logic in MapController (use save() method instead)
 

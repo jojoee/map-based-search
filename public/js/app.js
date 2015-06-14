@@ -84,21 +84,21 @@ jQuery(document).ready(function() {
 		$lngInput.val(num);	
 	}
 
-	function updateInputCity(num) {
+	function updateCityInput(num) {
 		$cityInput.val(num);
 	}
 
 	/**
 	 * Update zoom level input by config data
 	 */
-	function updateInputZoomLevel() {
+	function updateZoomLevelInput() {
 		$zoomLevelInput.val(config.zoomLevel);
 	}
 
 	/**
 	 * Update lat input by config data
 	 */
-	function updateInputLat() {
+	function updateLatInput() {
 		$latInput.val(config.lat);
 	}
 
@@ -106,15 +106,43 @@ jQuery(document).ready(function() {
 	 * Update lng input by config data
 	 * @return {[type]} [description]
 	 */
-	function updateInputLng() {
+	function updateLngInput() {
 		$lngInput.val(config.lng);
 	}
 
 	/**
 	 * Update city input by config data
 	 */
-	function updateInputCity() {
+	function updateCityInput() {
 		$cityInput.val(config.city);
+	}
+
+	/**
+	 * [replaceSpaceWithPlus description]
+	 * @see http://stackoverflow.com/questions/3794919/replace-all-spaces-in-a-string-with
+	 * @param  {[type]} str [description]
+	 * @return {[type]}     [description]
+	 */
+	function replaceSpaceWithPlus(str) {
+		return str.split(' ').join('+');
+	}
+
+	/**
+	 * [replaceSlashWithPlus description]
+	 * @see http://stackoverflow.com/questions/4566771/how-to-globally-replace-a-forward-slash-in-a-javascript-string
+	 * @see http://stackoverflow.com/questions/10610402/javascript-replace-all-commas-in-a-string
+	 * @param  {[type]} str [description]
+	 * @return {[type]}     [description]
+	 */
+	function replaceSlashWithPlus(str) {
+		return str.replace(/\//g, '+');
+	}
+
+	function cleanCityName(str) {
+		var results;
+		results = replaceSlashWithPlus(str);
+		results = replaceSpaceWithPlus(str);
+		return results;
 	}
 
 	/*================================================================
@@ -285,10 +313,10 @@ jQuery(document).ready(function() {
 	 * @return {[type]} [description]
 	 */
 	function updateAllInputData() {
-		updateInputZoomLevel();
-		updateInputLat();
-		updateInputLng();
-		updateInputCity();
+		updateZoomLevelInput();
+		updateLatInput();
+		updateLngInput();
+		updateCityInput();
 	}
 
 	/**
@@ -312,9 +340,9 @@ jQuery(document).ready(function() {
 		updateGoogleMapTextOverlay()
 	}
 
-	function getLocationData() {
+	// function getLocationData() {
 
-	}
+	// }
 
 	/*================================================================
 		#Test / Dummy
@@ -420,42 +448,46 @@ jQuery(document).ready(function() {
 
 	$cityForm.on('submit', function(e) {
 		e.preventDefault();
-		$mapLoading.fadeIn('slow');
 		cityName = $cityInput.val();
 
 		if (latestCity.toUpperCase() !== cityName.toUpperCase()) {
+			$mapLoading.fadeIn('slow');
+
 			try {
-				$.get('/map/get/' + cityName, function(data) {
-					var results = $.parseJSON(data);
-					if (debugMode) console.log(results);
+				$.get('/map/get/' + cleanCityName(cityName), function(data) {
 
-					if (results.status === 'OK') {
-						var locations = $.parseJSON(results.data);
-
-						setInputLat(results.lat);
-						setInputLng(results.lng);
-
-						// remove all previous marker on the map
-						removeGoogleMapAllMarkers();
-
-						// add new marker on the map
-						addGoogleMapMarkerWithInfo(locations);
-
-						updateAllConfigData();
-						updateGoogleMap();
-
-						$mapLoading.fadeOut('slow');
+					if (data === 'Twitter - Bad Authentication data') {
+						console.log('Twitter - Bad Authentication data');
 					} else {
-						// if error then ?
+						var results = $.parseJSON(data);
+						if (debugMode) console.log(results);
+
+						if (results.status.toUpperCase() === 'OK') {
+							var locations = $.parseJSON(results.data);
+
+							setInputLat(results.lat);
+							setInputLng(results.lng);
+
+							// remove all previous marker on the map
+							removeGoogleMapAllMarkers();
+
+							// add new marker on the map
+							addGoogleMapMarkerWithInfo(locations);
+
+							updateAllConfigData();
+							updateGoogleMap();
+
+							$mapLoading.fadeOut('slow');
+						} else {
+							// if error then ?
+						}
 					}
 				});
-
-			} catch(exception){ 
+			} catch (exception) {
 				// if error then ?
-				
+				console.log('can\'t get tweet data');
 			} finally {
 				$mapLoading.fadeOut('slow');
-				
 			}
 
 			latestCity = cityName;
@@ -493,20 +525,9 @@ jQuery(document).ready(function() {
 		};
 	}
 
-	function initMarker() {
-		
-		// var locations = [
-		// 	{
-		// 		title: 'Bangkok',
-		// 		content: 'Bangkok',
-		// 		lat: -33.92,
-		// 		lng: 151.25,
-		// 		iconImage: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
-		// 	}
-		// ];
+	// function initMarker() {
 
-		// addGoogleMapMarkerWithInfo(locations);
-	}
+	// }
 
 	function initGoogleMap() {
 		map = new google.maps.Map(
@@ -523,8 +544,6 @@ jQuery(document).ready(function() {
 		initGoogleMap();
 		updateAllInputData();
 		updateGoogleMap();
-
-		initMarker();
 	}
 
 	google.maps.event.addDomListener(window, 'load', initialize);

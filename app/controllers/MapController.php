@@ -2,14 +2,14 @@
 
 class MapController extends \BaseController {
 
-	private $currentTimestamp;
-	private $hourAgo;
+	private $currentDateTime;
+	private $hourAgoDateTime;
 	private $radius;
 
 	public function __construct()
 	{
-		$this->currentTimestamp = date('Y-m-d H:i:s');
-		$this->hourAgo = date('Y-m-d H:i:s', strtotime('-1 hour'));
+		$this->currentDateTime = date('Y-m-d H:i:s');
+		$this->hourAgoDateTime = date('Y-m-d H:i:s', strtotime('-1 hour'));
 		$this->radius = '50km';
 	}
 
@@ -97,7 +97,7 @@ class MapController extends \BaseController {
 		
 		$data = array();
 		$city = strtoupper($city);
-		$record = Tweet::where('city', $city)->where('updated_at', '>', $this->hourAgo)->first();
+		$record = Tweet::where('city', $city)->where('updated_at', '>', $this->hourAgoDateTime)->first();
 
 		if ($record)
 		{
