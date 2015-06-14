@@ -11,4 +11,12 @@
 |
 */
 
-Route::get('/', 'MapController@showMap');
+Route::get('/', 'MapController@index');
+Route::get('map/get', function()
+{
+	return Redirect::to('/');
+});
+Route::get('map/get/{city}', 'MapController@get');
+
+// Route::resource('map', 'MapController');
+// Route::resource('map', 'MapController', array('only' => array('show')));

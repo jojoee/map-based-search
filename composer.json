@@ -6,9 +6,7 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"components/jquery": "2.1.4",
-		"twbs/bootstrap": "3.3.4",
-		"fortawesome/font-awesome": "4.3.0"
+		"abraham/twitteroauth": "0.5.3"
 	},
 	"autoload": {
 		"classmap": [
@@ -20,7 +18,8 @@
 			"app/tests/TestCase.php"
 		],
 		"files": [
-			"app/helpers/useful_functions.php"
+			"app/helpers/useful_functions.php",
+			"app/helpers/TwitterHelper.php"
 		]
 	},
 	"scripts": {
