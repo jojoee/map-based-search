@@ -356,14 +356,14 @@ jQuery(document).ready(function($) {
 			} catch (exception) {
 
 				// if error then ?
-				logText('Can\'t get search history');
+				if (debugMode) logText('Can\'t get search history');
 
 			} finally {
 
 				// do nothing
 			}
 		} else {
-			logText('Not get new search history');
+			if (debugMode) logText('Not get new search history');
 		}
 
 		$mapLoading.fadeOut('slow');
@@ -414,7 +414,7 @@ jQuery(document).ready(function($) {
 			$.get('/get/' + cleanCityName(cityName), function(data) {
 
 				if (data === 'Twitter - Bad Authentication data') {
-					logText('Twitter - Bad Authentication data');
+					if (debugMode) logText('Twitter - Bad Authentication data');
 				} else {
 					if (debugMode) console.log(data);
 					
@@ -444,14 +444,14 @@ jQuery(document).ready(function($) {
 					} else {
 
 						// if error then
-						logText('Error', results.errorMsg);
+						if (debugMode) logText('Error', results.errorMsg);
 					}
 				}
 			});
 
 		} catch (exception) {
 			// if error then ?
-			logText('Can\'t get tweet data');
+			if (debugMode) logText('Can\'t get tweet data');
 
 		} finally {
 			
