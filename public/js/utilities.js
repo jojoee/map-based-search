@@ -7,7 +7,7 @@
  * @return {Boolean}
  */
 function isInteger(num) {
-	return num === parseInt(num, 10);
+	return num == parseInt(num, 10);
 }
 
 /**
@@ -17,7 +17,7 @@ function isInteger(num) {
  * @return {Boolean}
  */
 function isFloat(num) {
-	return num === parseFloat(num, 10);
+	return num == parseFloat(num, 10);
 }
 
 /**

@@ -1,6 +1,6 @@
 # Map Based Search
 
-Simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map. (**support english only**)
+Simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map. (**support english only**) - [Demo](http://mbs.jojoee.com/)
 
 ## Usage / Featured
 
@@ -32,6 +32,7 @@ Simple responsive website that allows the user to search for a city  and display
 - The repository isn't include `vendor` folder, please run `composer install`
 - Database index: `city` and `updated_at` field
 - Default google map style: [light dream](https://snazzymaps.com/style/134/light-dream)
+- Javascript unit test with [Jasmine](http://jasmine.github.io/) - [see test results](http://mbs.jojoee.com/jasmine) (in progress)
 
 ## Acknowledged issue
 
@@ -44,7 +45,6 @@ Due to `Google Places API` will provide the city name and other infomations (suc
 ## Future update
 
 - PHP unit test
-- Javascript unit test
 - Create Laravel database migration & seed
 - Add redundant resources
 - Google map style setting

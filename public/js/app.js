@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 	var isHistoryUpdated = true;
 
 	var $pageLoading = $('.loading');
-
+	
 	/*================================================================
 		#Google map utilities
 		================================================================*/
@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
 	 * 
 	 * @see https://developers.google.com/maps/documentation/javascript/maxzoom
 	 * 
-	 * @param	{Integer} num
+	 * @param  {Integer} num
 	 * @return {Boolean}
 	 */
 	function isZoomLevel(num) {
@@ -50,7 +50,7 @@ jQuery(document).ready(function($) {
 	 * 
 	 * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
 	 * 
-	 * @param	{Float}	 num
+	 * @param  {Float}	 num
 	 * @return {Boolean}
 	 */
 	function isLatLng(num) {
