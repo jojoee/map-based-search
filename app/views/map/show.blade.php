@@ -25,7 +25,7 @@
 <div class="history-panel hidden">
 	<div class="history-overlay"></div>
 	<ul class="history-list">
-		<li class="history-back history-btn">Back to the tweets</li>
+		<li class="history-back">Back to the tweets</li>
 	</ul>
 </div><!-- .history-panel -->
 <div id="map-config">
@@ -39,19 +39,21 @@
 		<label for="lng">Lng: </label><input type="text" name="lng" id="lng" placeholder="Longitude">	
 	</div>
 	<div class="btn-box">
-		<div class="remove-all-markers btn">Remove All Markers</div>
-		<div class="add-text-overlay btn">Add text overlay</div>
-		<div class="update-text-overlay btn">Update text overlay</div>
-		<div class="remove-text-overlay btn">Remove text overlay</div>	
+		<div class="remove-all-markers red-btn btn">Remove All Markers</div>
+		<div class="add-text-overlay red-btn btn">Add text overlay</div>
+		<div class="update-text-overlay red-btn btn">Update text overlay</div>
+		<div class="remove-text-overlay red-btn btn">Remove text overlay</div>	
 	</div>
-	<div class="history btn">History</div>
-	<div class="latest-log">
+	
+	<div class="latest-log hidden">
 		<span>Latest log:</span>
 		<span class="log-msg">No error</span>
 	</div>
+
 	{{ Form::open(array('id' => 'city-form')) }}
-		{{ Form::text('city', Input::old('city'), array('placeholder' => 'City name', 'id' => 'city', 'required' => 'required')) }}
-		{{ Form::submit('Search') }}
+		<div class="city-box">{{ Form::text('city', Input::old('city'), array('placeholder' => 'City name', 'id' => 'city', 'required' => 'required')) }}</div>
+		<div class="submit-box">{{ Form::submit('Search') }}</div>
+		<button class="history btn">History</button>
 	{{ Form::close() }}
 </div><!-- #map-config -->
 <div id="map-canvas"></div><!-- #map-canvas -->

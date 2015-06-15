@@ -6,6 +6,7 @@ Simple responsive website that allows the user to search for a city  and display
 
 - User searches for a city
 - Responsive
+- Compatibility with - IE10+, Chrome, Firefox, Safari Window, Safari iPhone5 8.1.1
 - Search tweets that contain `city` name, within 50km of location and contain coordinate date
 - Use profile picture as the `Marker`
 - When click the `Marker` then display `info window` which contain tweet's text and tweet's time
@@ -48,10 +49,9 @@ due to `Google Places API` will provide the city name and other infomations (suc
 - Add security protection
 - Update debug mode
 - Update get() logic in MapController (use save() method instead)
-- Compatibility with - IE10+, Chrome 39+, Firefox 31+, Safari Window 5.1.7+, Safari iPhone5 8.1.1
 - High-level Documentatin
 - Use `post` instand of `get` on ajax of updateSearchHistory() (app.js)
-- How to handle `php maximum request timeout` when ajax request tweets
+- How to handle `PHP Maximum request timeout` when ajax request tweets
 
 ## Components
 

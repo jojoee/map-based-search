@@ -710,7 +710,7 @@ jQuery(document).ready(function($) {
 	 * Initialize config data and map options
 	 */
 	function initConfig() {
-		debugMode = true;
+		debugMode = false;
 
 		config = {
 			lat: 13.7563,
