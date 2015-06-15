@@ -17,6 +17,8 @@ jQuery(document).ready(function() {
 	var $cityText = $('.city-text');
 
 	var $mapLoading  = $('.map-loading');
+
+	var $logMsg = $('.log-msg');
 	
 	/**
 	 * Update zoom level of config
@@ -444,12 +446,12 @@ jQuery(document).ready(function() {
 	 * @param {String} data
 	 */
 	function logText(title, data) {
-		if (typeof data === 'undefined') {
-			data = '';
-		} else {
-			data = ': ' + data;
-		}
-		console.log(title + data);
+		var msg = title;
+
+		if (typeof data !== 'undefined') msg += ': ' + data;
+
+		console.log(msg);
+		$logMsg.text(msg);
 	}
 
 	/*================================================================
@@ -527,7 +529,7 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 		cityName = $cityInput.val();
 
-		if (debugMode) console.log('Form submit');
+		if (debugMode) logText('Form submit');
 
 		if (config.latestCity.toUpperCase() !== cityName.toUpperCase()) {
 			$mapLoading.fadeIn('slow');
@@ -536,12 +538,14 @@ jQuery(document).ready(function() {
 				$.get('/map/get/' + cleanCityName(cityName), function(data) {
 
 					if (data === 'Twitter - Bad Authentication data') {
-						console.log('Twitter - Bad Authentication data');
+						logText('Twitter - Bad Authentication data');
 					} else {
+						if (debugMode) console.log(data);
+						
 						var results = $.parseJSON(data);
-						if (debugMode) console.log(results);
 
 						if (results.status.toUpperCase() === 'OK') {
+
 							var locations = $.parseJSON(results.data);
 
 							setLatInput(results.lat);
@@ -557,8 +561,11 @@ jQuery(document).ready(function() {
 							updateGoogleMap();
 
 							$mapLoading.fadeOut('slow');
+
 						} else {
-							// if error then ?
+
+							// if error then
+							logText('Error', results.errorMsg);
 						}
 					}
 				});
@@ -566,7 +573,7 @@ jQuery(document).ready(function() {
 			} catch (exception) {
 
 				// if error then ?
-				console.log('Can\'t get tweet data');
+				logText('Can\'t get tweet data');
 
 			} finally {
 
@@ -578,7 +585,7 @@ jQuery(document).ready(function() {
 		} else {
 
 			// do nothing
-			if (debugMode) console.log('Form submit: Do nothing');
+			if (debugMode) logText('Form submit: Do nothing');
 		}
 
 		return false;
@@ -597,7 +604,7 @@ jQuery(document).ready(function() {
 		config = {
 			lat: 13.7563,
 			lng: 100.5018,
-			zoomLevel: 12,
+			zoomLevel: 10,
 			styles: mapStyles.lightDream,
 			city: 'Bangkok',
 			latestCity: ''
@@ -631,11 +638,11 @@ jQuery(document).ready(function() {
 		google.maps.event.addListener(map, 'zoom_changed', function() {
 			var zoomLevel = map.getZoom();
 			setZoomLevelInput(zoomLevel);
-			
+
 			if (debugMode) logText('Google map zoom level\'s changed', zoomLevel);
 		});
 	}
-	
+
 	/**
 	 * Initialize an application
 	 */

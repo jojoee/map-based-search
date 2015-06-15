@@ -121,6 +121,8 @@ class MapController extends \BaseController {
 		$city = strtoupper($city);
 		$record = Tweet::where('city', $city)->where('updated_at', '>', $this->hourAgoDateTime)->first();
 
+		$errorMessage = '';
+
 		if ($record)
 		{
 			$status = 'OK';
@@ -154,6 +156,7 @@ class MapController extends \BaseController {
 			{
 				$status = 'NOOK';
 				$tweetsEncode = json_encode(array());
+				$errorMessage = 'No tweets found';
 			}
 			else
 			{
@@ -163,10 +166,12 @@ class MapController extends \BaseController {
 				$record = Tweet::where('city', $city)->first();
 				if ($record)
 				{
+					// Update the record
 					Tweet::where('city', $city)->update(array('data' => $tweetsEncode));
 				}
 				else
 				{
+					// Add new record
 					$tweetData = array(
 						'city'  => $city,
 						'data'  => $tweetsEncode,
@@ -179,10 +184,11 @@ class MapController extends \BaseController {
 		}
 
 		$data = array(
-			'status'  => $status,
-			'data'    => $tweetsEncode,
-			'lat'     => $lat,
-			'lng'     => $lng
+			'status'    => $status,
+			'data'      => $tweetsEncode,
+			'lat'       => $lat,
+			'lng'       => $lng,
+			'errorMsg'  => $errorMessage
 		);
 
 		echo json_encode($data);

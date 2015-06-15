@@ -16,6 +16,7 @@ simple responsive website that allows the user to search for a city  and display
 ## Acknowledged issue
 
 - can't validate city name before send a request (cause don't have all city names in database)
+- can't control lat and lng that's provided by google map api
 
 ## Future update
 

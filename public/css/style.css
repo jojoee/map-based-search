@@ -62,6 +62,15 @@ body {
 #city-form {
   float: left;
 }
+.latest-log {
+  float: left;
+  background-color: #FFFFBC;
+  padding: 4px;
+  margin: 0 2px;
+}
+.log-msg {
+  color: #F00;
+}
 /*================================================================
   #Map
   ================================================================*/

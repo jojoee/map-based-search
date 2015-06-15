@@ -15,6 +15,10 @@
 	<div class="add-text-overlay btn">Add text overlay</div>
 	<div class="update-text-overlay btn">Update text overlay</div>
 	<div class="remove-text-overlay btn">Remove text overlay</div>
+	<div class="latest-log">
+		<span>Latest log:</span>
+		<span class="log-msg">No error</span>
+	</div>
 	{{ Form::open(array('id' => 'city-form')) }}
 		{{ Form::text('city', Input::old('city'), array('placeholder' => 'City name', 'id' => 'city', 'required' => 'required')) }}
 		{{ Form::submit('Search') }}
