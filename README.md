@@ -23,7 +23,6 @@ simple responsive website that allows the user to search for a city  and display
 - PHP unit test
 - Javascript unit test
 - create Laravel database migration & seed
-- sync zoom level between input and google map
 - add redundant resources
 - color schema setting
 - add security protection

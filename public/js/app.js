@@ -626,8 +626,16 @@ jQuery(document).ready(function() {
 			document.getElementById('map-canvas'),
 			mapOptions
 		);
-	}
 
+		// Google map event listener
+		google.maps.event.addListener(map, 'zoom_changed', function() {
+			var zoomLevel = map.getZoom();
+			setZoomLevelInput(zoomLevel);
+			
+			if (debugMode) logText('Google map zoom level\'s changed', zoomLevel);
+		});
+	}
+	
 	/**
 	 * Initialize an application
 	 */
