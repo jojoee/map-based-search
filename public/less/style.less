@@ -12,8 +12,8 @@
 }
 
 /*================================================================
-  #General
-  ================================================================*/
+	#General
+	================================================================*/
 
 html,
 body,
@@ -36,8 +36,8 @@ body {
 }
 
 /*================================================================
-  #Map
-  ================================================================*/
+	#Map
+	================================================================*/
 
 .map-loading {
 	position: fixed;
@@ -70,8 +70,8 @@ body {
 }
 
 /*================================================================
-  #Map config
-  ================================================================*/
+	#Map config
+	================================================================*/
 
 .btn {
 	background-color: red;
@@ -164,8 +164,73 @@ body {
 }
 
 /*================================================================
-  #Map
-  ================================================================*/
+	#Page loading
+	================================================================*/
+
+.loading {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: @white;
+	margin: 0 auto;
+	padding-top: 148px;
+	z-index: 99;
+}
+
+.loading-inner {
+	width: 40px;
+	margin: 0 auto;
+}
+
+.loading-section {
+	width: 40px;
+	height: 26px;
+}
+
+.box {
+	width: 12px;
+	height: 12px;
+	margin-left: 2px;
+	margin-bottom: 2px;
+	background: @white;
+	float: left;
+}
+
+.box:nth-child(3n+1) {
+	margin-left: 0;
+}
+
+.box.box-dance:nth-child(1) { -webkit-animation-delay: -1.2s; }
+.box.box-dance:nth-child(2) { -webkit-animation-delay: -2.0s; }
+.box.box-dance:nth-child(3) { -webkit-animation-delay: -1.6s; }
+.box.box-dance:nth-child(4) { -webkit-animation-delay: -3.2s; }
+.box.box-dance:nth-child(5) { -webkit-animation-delay: -0.4s; }
+.box.box-dance:nth-child(6) { -webkit-animation-delay: -3.6s; }
+.box.box-dance:nth-child(7) { -webkit-animation-delay: -2.4s; }
+.box.box-dance:nth-child(8) { -webkit-animation-delay: -2.8s; }
+.box.box-dance:nth-child(9) { -webkit-animation-delay: -0.8s; }
+
+.box-dance { -webkit-animation: dance 840ms infinite alternate; }
+
+@-webkit-keyframes dance {
+	0%		{ background: rgba(94, 151, 255, 0.9); }
+	100%	{ background: rgba(94, 151, 255, 0.32); -webkit-transform: scale(0.65); }
+}
+
+.loading-text {
+	position: fixed;
+	top: 216px;
+	text-align: center;
+	width: 100%;
+	color: #616161;
+	font-size: 14px;
+	font-family: sans-serif;
+	letter-spacing: 3px;
+}
+
+/*================================================================
+	#Map
+	================================================================*/
 
 #map-canvas {
 	height: 90%;
@@ -184,9 +249,14 @@ body {
 	text-shadow: -1px 0 @white, 0 1px @white, 1px 0 @white, 0 -1px @white;
 }
 
+div.gm-style-iw > div,
+div.gm-style-iw > div > div {
+	overflow: visible !important;
+}
+
 /*================================================================
-  #No Javascript
-  ================================================================*/
+	#No Javascript
+	================================================================*/
 
 .nojs {
 	position: fixed;

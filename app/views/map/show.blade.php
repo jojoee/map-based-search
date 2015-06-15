@@ -1,19 +1,34 @@
 @include('layouts.header')
-
+<div id="loading" class="loading">
+  <div class="loading-inner">
+    <div class="loading-section">
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+      <div class="box box-dance">&nbsp;</div>
+    </div>
+  </div>
+  <p class="loading-text">loading</p>
+</div><!-- .loading -->
 <div class="map-loading hidden">
 	<div class="loading-overlay"></div>
 	<div class="loading-icon">
 		<i class="fa fa-cog fa-spin"></i>
 		<div class="loading-text">Loading</div>
 	</div>
-</div>
+</div><!-- .map-loading -->
 <div class="history-panel hidden">
 	<div class="history-overlay"></div>
 	<ul class="history-list">
 		<li class="history-back history-btn">Back to the tweets</li>
 	</ul>
-</div>
-<div id="map-config"><!-- #map-config -->
+</div><!-- .history-panel -->
+<div id="map-config">
 	<div class="zoom-level-box">
 		<label for="zoom-level">Zoom Level: </label><input type="text" name="zoom-level" id="zoom-level" placeholder="Zoom level">
 	</div>
@@ -29,7 +44,6 @@
 		<div class="update-text-overlay btn">Update text overlay</div>
 		<div class="remove-text-overlay btn">Remove text overlay</div>	
 	</div>
-
 	<div class="history btn">History</div>
 	<div class="latest-log">
 		<span>Latest log:</span>
@@ -39,7 +53,7 @@
 		{{ Form::text('city', Input::old('city'), array('placeholder' => 'City name', 'id' => 'city', 'required' => 'required')) }}
 		{{ Form::submit('Search') }}
 	{{ Form::close() }}
-</div>
+</div><!-- #map-config -->
 <div id="map-canvas"></div><!-- #map-canvas -->
 <noscript>
 	<div class="nojs">

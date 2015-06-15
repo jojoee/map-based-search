@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 	var $tweetText = $('#' + tweetTextId);
 	var $cityText = $('.city-text');
 
-	var $mapLoading  = $('.map-loading');
+	var $mapLoading	= $('.map-loading');
 
 	var $logMsg = $('.log-msg');
 
@@ -24,11 +24,43 @@ jQuery(document).ready(function($) {
 	var historyItemSelector = '.history-item';
 	var $historyItem = $(historyItemSelector);
 	var $historyBack = $('.history-back');
-
 	var $historyPanel = $('.history-panel');
-
 	var isHistoryUpdated = true;
-	
+
+	var $pageLoading = $('.loading');
+
+	/*================================================================
+		#Google map utilities
+		================================================================*/
+
+	/**
+	 * Check the number's in range of google map zoom level (0 - 22)
+	 * 
+	 * @see https://developers.google.com/maps/documentation/javascript/maxzoom
+	 * 
+	 * @param	{Integer} num
+	 * @return {Boolean}
+	 */
+	function isZoomLevel(num) {
+		return (isInteger(num) && num >= 0 && num <= 22);
+	}
+
+	/**
+	 * Check the number's in range of latitude / longitude (-180 - 180)
+	 * 
+	 * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
+	 * 
+	 * @param	{Float}	 num
+	 * @return {Boolean}
+	 */
+	function isLatLng(num) {
+		return (isFloat(num) && num >= -180 && num <= 180);
+	}
+
+	/*================================================================
+		#Main application
+		================================================================*/
+
 	/**
 	 * Update zoom level of config
 	 */
@@ -116,38 +148,6 @@ jQuery(document).ready(function($) {
 	function updateCityInput() {
 		$cityInput.val(config.city);
 	}
-
-	/*================================================================
-		#Google map utilities
-		================================================================*/
-
-	/**
-	 * Check the number's in range of google map zoom level (0 - 22)
-	 * 
-	 * @see https://developers.google.com/maps/documentation/javascript/maxzoom
-	 * 
-	 * @param  {Integer} num
-	 * @return {Boolean}
-	 */
-	function isZoomLevel(num) {
-		return (isInteger(num) && num >= 0 && num <= 22);
-	}
-
-	/**
-	 * Check the number's in range of latitude / longitude (-180 - 180)
-	 * 
-	 * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
-	 * 
-	 * @param  {Float}   num
-	 * @return {Boolean}
-	 */
-	function isLatLng(num) {
-		return (isFloat(num) && num >= -180 && num <= 180);
-	}
-
-	/*================================================================
-		#Google map
-		================================================================*/
 
 	/**
 	 * Set google map zoom level
@@ -342,7 +342,6 @@ jQuery(document).ready(function($) {
 						isHistoryUpdated = false;
 
 						$historyItem = $('.history-item');
-						console.log($historyItem);
 					}
 
 					if (debugMode) {
@@ -371,7 +370,6 @@ jQuery(document).ready(function($) {
 
 		// bind history item again
 		$historyItem = $('.history-item');
-		console.log($historyItem);
 
 		// open history panel
 		$historyPanel.fadeIn('slow');
@@ -400,7 +398,7 @@ jQuery(document).ready(function($) {
 
 		} catch (exception) {
 
-			console.log(exception);
+			if (debugMode) console.log(exception);
 		}
 	}
 
@@ -474,6 +472,21 @@ jQuery(document).ready(function($) {
 			// do nothing
 			if (debugMode) logText('Search: Do nothing');
 		}
+	}
+
+	/**
+	 * Remove page loading effect
+	 */
+	function removePageLoading() {
+		var delayTime = 600;
+
+		setTimeout(function(){
+			$pageLoading
+				.delay( delayTime )
+				.fadeOut( 'slow', function(){
+					$( this ).remove();
+				});
+		}, delayTime );
 	}
 
 	/*================================================================
@@ -751,6 +764,9 @@ jQuery(document).ready(function($) {
 		// Update
 		updateAllInputData();
 		updateGoogleMap();
+
+		// Others
+		removePageLoading();
 	}
 
 	google.maps.event.addDomListener(window, 'load', initialize);
