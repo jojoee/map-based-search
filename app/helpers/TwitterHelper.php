@@ -2,6 +2,9 @@
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+/**
+ * Helper class of TwitterOAuth library
+ */
 class TwitterHelper {
 
 	private $consumerKey;
@@ -10,6 +13,14 @@ class TwitterHelper {
 	private $accessTokenSecret;
 	private $twitter;
 
+	/**
+	 * Construct method
+	 * 
+	 * @param string $consumerKey
+	 * @param string $consumerSecret
+	 * @param string $accessToken
+	 * @param string $accessTokenSecret
+	 */
 	public function __construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret)
 	{
 		$this->consumerKey = $consumerKey;
@@ -25,6 +36,11 @@ class TwitterHelper {
 		);
 	}
 
+	/**
+	 * Verify a TwitterOAuth
+	 * 
+	 * @return boolean
+	 */
 	public function verify()
 	{
 		$results = $this->twitter->get("account/verify_credentials");
@@ -34,17 +50,22 @@ class TwitterHelper {
 	}
 
 	/**
-	 * [rawSearchTweets description]
-	 * development purpose
+	 * Search tweets (raw data)
 	 * 
-	 * @param  [type] $args [description]
-	 * @return [type]       [description]
+	 * @param  array $args TwitterOAuth arguments
+	 * @return TwitterOAuth
 	 */
 	public function rawSearchTweets($args)
 	{
 		return $this->twitter->get("search/tweets", $args);
 	}
 
+	/**
+	 * Search tweets and set data into usable format
+	 * 
+	 * @param  array $args TwitterOAuth arguments
+	 * @return TwitterOAuth
+	 */
 	public function searchTweets($args)
 	{
 		$tweets = $this->rawSearchTweets($args);
@@ -55,15 +76,6 @@ class TwitterHelper {
 
 			foreach ($tweets->statuses as $status)
 			{
-				// $tmp['id'] = $status->id;
-				// $tmp['created_at'] = $status->created_at;
-				// $tmp['when'] = $this->convertTwitterTime($status->created_at);
-				// $tmp['text'] = $status->text;
-				// $tmp['user_id'] = $status->user->id;
-				// $tmp['profile_image_url'] = $status->user->profile_image_url;
-				// $tmp['lat'] = $status->geo->coordinates[0];
-				// $tmp['lng'] = $status->geo->coordinates[1];
-
 				$tmp['id'] = $status->id;
 				$tmp['title'] = $tweets->search_metadata->query;
 				$tmp['content'] = $status->text.' When: '.$this->twitterTimeToReadableTime($status->created_at);
@@ -74,16 +86,17 @@ class TwitterHelper {
 				$results[] = $tmp;
 			}			
 		}
-		
+
 		return $results;
 	}
 
 	/**
- 	* [twitterTimeToReadableTime description]
+ 	 * Convert Twitter time into Readable time format
+ 	 * 
 	 * @see http://stackoverflow.com/questions/6823537/best-way-to-change-twitter-api-datetimes-to-a-timestamp
 	 * 
-	 * @param  [type] $statuses [description]
-	 * @return [type]           [description]
+	 * @param  datetime $str Twitter time
+	 * @return datetime
 	 */
 	private function twitterTimeToReadableTime($str)
 	{
@@ -93,10 +106,12 @@ class TwitterHelper {
 	}
 	
 	/**
-	 * [twiiterTimeToTimestamp description]
+	 * Convert Twiiter time to timestamp
+	 * 
 	 * @see http://stackoverflow.com/questions/6823537/best-way-to-change-twitter-api-datetimes-to-a-timestamp
-	 * @param  [type] $str [description]
-	 * @return [type]      [description]
+	 * 
+	 * @param  datetime $str Twitter time
+	 * @return timestamp
 	 */
 	private function twiiterTimeToTimestamp($str)
 	{

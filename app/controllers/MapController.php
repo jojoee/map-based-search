@@ -6,6 +6,9 @@ class MapController extends \BaseController {
 	private $hourAgoDateTime;
 	private $radius;
 
+	/**
+	 * Construct method, set value of global variable
+	 */
 	public function __construct()
 	{
 		$this->currentDateTime = date('Y-m-d H:i:s');
@@ -44,6 +47,12 @@ class MapController extends \BaseController {
 		//
 	}
 
+	/**
+	 * Get latitude longitude by city name
+	 * 
+	 * @param  string $city city name
+	 * @return array
+	 */
 	private function getLatLng($city)
 	{
 		$targetUrl = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$city.'&sensor=false';
@@ -67,6 +76,14 @@ class MapController extends \BaseController {
 		return $results;
 	}
 
+	/**
+	 * Get tweet data from Twitter Search API by twitteroauth library
+	 * 
+	 * @param  string $city city name
+	 * @param  float  $lat  latitude
+	 * @param  float  $lng  longitude
+	 * @return array
+	 */
 	private function getTweetData($city, $lat, $lng)
 	{
 		$consumerKey = Config::get('constants.twitterConsumerKey');
@@ -91,9 +108,14 @@ class MapController extends \BaseController {
 		return $tweets;
 	}
 
+	/**
+	 * Get tweet data by city name via ajax only
+	 * 
+	 * @param string $city city name
+	 */
 	public function get($city)
 	{
-		// if (! Request::ajax()) return Redirect::to('/');
+		if (! Request::ajax()) return Redirect::to('/');
 		
 		$data = array();
 		$city = strtoupper($city);
@@ -120,12 +142,13 @@ class MapController extends \BaseController {
 				
 				// if error then ?
 				if (empty($geo)) die();
+				
 				$lat = $geo['lat'];
 				$lng = $geo['lng'];				
 			}
 
 			$tweets = $this->getTweetData($city, $lat, $lng);
-			
+
 			// if error then status = 'NOOK'
 			if (empty($tweets))
 			{

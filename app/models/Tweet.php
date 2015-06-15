@@ -8,6 +8,7 @@ class Tweet extends Eloquent {
 	 * @var string
 	 */
 	protected $table = 'tweet';
+	
 	protected $fillable = array('city', 'data', 'lat', 'lng');
 	public $timestamps = true;
 }

@@ -17,75 +17,65 @@ jQuery(document).ready(function() {
 	var $cityText = $('.city-text');
 
 	var $mapLoading  = $('.map-loading');
-	var latestCity;
 	
+	/**
+	 * Update zoom level of config
+	 */
 	function updateZoomLevel() {
 		config.zoomLevel = stringToInt($zoomLevelInput.val());
 	}
 
+	/**
+	 * Update latitude of config
+	 */
 	function updateLat() {
 		config.lat = stringToFloat($latInput.val());
 	}
 
+	/**
+	 * Update longitude of config
+	 */
 	function updateLng() {
 		config.lng = stringToFloat($lngInput.val());
 	}
 
+	/**
+	 * Update city of config
+	 */
 	function updateCity() {
 		config.city = $cityInput.val();
 	}
 
-	// function getZoomLevel() {
-	// 	return stringToInt($zoomLevelInput.val());
-	// }
-
-	// function getLat() {
-	// 	return stringToFloat($latInput.val());
-	// }
-
-	// function getLng() {
-	// 	return stringToFloat($lngInput.val());
-	// }
-
-	function logZoomLevel() {
-		logText('Zoom Level', config.zoomLevel);
-	}
-
-	function logLat() {
-		logText('Lat', config.lat);
-	}
-
-	function logLng() {
-		logText('Lng', config.lng);
-	}
-
-	function logCity() {
-		logText('City', config.city);
-	}
-
-	function logText(title, data) {
-		if (typeof data === 'undefined') {
-			data = '';
-		} else {
-			data = ': ' + data;
-		}
-		console.log(title + data);
-	}
-
-	function setInputZoomLevel(num) {
+	/**
+	 * Set zoom level input by procied value
+	 * @param {Number} num
+	 */
+	function setZoomLevelInput(num) {
 		$zoomLevelInput.val(num);
 	}
 
-	function setInputLat(num) {
+	/**
+	 * Set latitude input by provided value
+	 * @param {Float} num
+	 */
+	function setLatInput(num) {
 		$latInput.val(num);
 	}
 
-	function setInputLng(num) {
+	/**
+	 * Set longitude input by provided value
+	 * @param {Float} num
+	 */
+	function setLngInput(num) {
 		$lngInput.val(num);	
 	}
 
-	function updateCityInput(num) {
-		$cityInput.val(num);
+	/**
+	 * Set city name input by provided value
+	 * @param {String} str
+	 */
+	function setCityInput(str) {
+		$cityInput.val(str);
 	}
 
 	/**
@@ -96,15 +86,14 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * Update lat input by config data
+	 * Update latitude input by config data
 	 */
 	function updateLatInput() {
 		$latInput.val(config.lat);
 	}
 
 	/**
-	 * Update lng input by config data
-	 * @return {[type]} [description]
+	 * Update longitude input by config data
 	 */
 	function updateLngInput() {
 		$lngInput.val(config.lng);
@@ -118,26 +107,36 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * [replaceSpaceWithPlus description]
+	 * Replace space with plus
+	 * 
 	 * @see http://stackoverflow.com/questions/3794919/replace-all-spaces-in-a-string-with
-	 * @param  {[type]} str [description]
-	 * @return {[type]}     [description]
+	 * 
+	 * @param  {String} str
+	 * @return {String}
 	 */
 	function replaceSpaceWithPlus(str) {
 		return str.split(' ').join('+');
 	}
 
 	/**
-	 * [replaceSlashWithPlus description]
+	 * Replace slash with plus
+	 * 
 	 * @see http://stackoverflow.com/questions/4566771/how-to-globally-replace-a-forward-slash-in-a-javascript-string
 	 * @see http://stackoverflow.com/questions/10610402/javascript-replace-all-commas-in-a-string
-	 * @param  {[type]} str [description]
-	 * @return {[type]}     [description]
+	 * 
+	 * @param  {String} str
+	 * @return {String}
 	 */
 	function replaceSlashWithPlus(str) {
 		return str.replace(/\//g, '+');
 	}
 
+	/**
+	 * Clean city input string
+	 * 
+	 * @param  {String} str
+	 * @return {String}
+	 */
 	function cleanCityName(str) {
 		var results;
 		results = replaceSlashWithPlus(str);
@@ -146,38 +145,54 @@ jQuery(document).ready(function() {
 	}
 
 	/*================================================================
-		#Google map
+		#Google map utilities
 		================================================================*/
 
 	/**
-	 * [isZoomLevel description]
+	 * Check the number's in range of google map zoom level (0 - 22)
+	 * 
 	 * @see https://developers.google.com/maps/documentation/javascript/maxzoom
-	 * @param  {[type]}  num [description]
-	 * @return {Boolean}     [description]
+	 * 
+	 * @param  {Integer} num
+	 * @return {Boolean}
 	 */
 	function isZoomLevel(num) {
 		return (isInteger(num) && num >= 0 && num <= 22);
 	}
 
 	/**
-	 * [isLatLng description]
+	 * Check the number's in range of latitude / longitude (-180 - 180)
+	 * 
 	 * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
-	 * @param  {[type]}  num [description]
-	 * @return {Boolean}     [description]
+	 * 
+	 * @param  {Float}   num
+	 * @return {Boolean}
 	 */
 	function isLatLng(num) {
 		return (isFloat(num) && num >= -180 && num <= 180);
 	}
 
+	/*================================================================
+		#Google map
+		================================================================*/
+
 	/**
-	 * [setGoogleMapZoomLevel description]
+	 * Set google map zoom level
+	 * 
 	 * @see https://developers.google.com/maps/documentation/javascript/reference
-	 * @param {[type]} num [description]
+	 * 
+	 * @param {Number} num
 	 */
 	function setGoogleMapZoomLevel(num) {
 		if (isZoomLevel(num)) map.setZoom(num);
 	}
 
+	/**
+	 * Set center of google map by latitude and longitude
+	 * 
+	 * @param {Float} lat
+	 * @param {Float} lng
+	 */
 	function setGoogleMapLatLng(lat, lng) {
 		if (isLatLng(lat) && isLatLng(lng)) {
 			var latlng = new google.maps.LatLng(lat, lng);
@@ -185,17 +200,21 @@ jQuery(document).ready(function() {
 		}
 	}
 
+	/**
+	 * Set google map style
+	 * 
+	 * @param {JSON} style
+	 */
 	function setGoogleMapStyle(style) {
 		map.setOptions({styles: style});
 	}
 
 	/**
-	 * [removeGoogleMapAllMarkers description]
+	 * Remove all google map markers
 	 *
 	 * @see https://developers.google.com/maps/documentation/javascript/examples/marker-remove
-	 * @return {[type]} [description]
 	 */
-	function removeGoogleMapAllMarkers() {
+	function removeAllGoogleMapMarkers() {
 		for (var i = 0; i < markers.length; i++) {
 			markers[i].setMap(null);
 		}
@@ -203,6 +222,12 @@ jQuery(document).ready(function() {
 		markers = [];
 	}
 
+	/**
+	 * Add google map marker
+	 * 
+	 * @param {Float} lat
+	 * @param {Float} lng
+	 */
 	function addGoogleMapMarker(lat, lng) {
 		var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(lat, lng),
@@ -213,11 +238,13 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * [addGoogleMapMarkerWithInfo description]
+	 * Add google map marker with info window
+	 * 
 	 * @see http://stackoverflow.com/questions/3059044/google-maps-js-api-v3-simple-multiple-marker-example
 	 * @see http://stackoverflow.com/questions/11106671/google-maps-api-multiple-markers-with-infowindows
 	 * @see http://stackoverflow.com/questions/3158598/google-maps-api-v3-adding-an-infowindow-to-each-marker
-	 * @param {[type]} locations [description]
+	 * 
+	 * @param {Array} locations
 	 */
 	function addGoogleMapMarkerWithInfo(locations) {
 		for (var i = 0; i < locations.length; i++) {
@@ -225,39 +252,13 @@ jQuery(document).ready(function() {
 			var marker;
 			var infowindow;
 
-			icon = 'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png';
-
-			// icon = {
-			// 	path: google.maps.SymbolPath.CIRCLE,
-			// 	scale: 10
-			// },
-
 			icon = {
 				url: locations[i].iconImage,
 				size: new google.maps.Size(48, 48),
 				origin: new google.maps.Point(0, 0),
 				anchor: new google.maps.Point(24, 24),
-				zIndex: 88,
-
-
-				// url: 'http://pbs.twimg.com/profile_images/601164070566277120/Qs1eXUyx_normal.jpg',
-				// scale: 10,
-				// size:new google.maps.Size(34,34)},
-				// shape:{coords:[17,17,18],type:'circle'},
-				// optimized:false
+				zIndex: 88
 			};
-
-			// icon = new google.maps.MarkerImage(
-			// 	'http://i.imgur.com/3YJ8z.png',
-			// 	new google.maps.Size(19,25),    // size of the image
-			// 	new google.maps.Point(0,0), // origin, in this case top-left corner
-			// 	new google.maps.Point(9, 25)    // anchor, i.e. the point half-way along the bottom of the image
-			// );
-			
-			// shape = {
-			// 	coords: [1, 1, 1, 20, 18, 20, 18 , 1],
-			// 	type: 'circle'
-			// };
 
 			infowindow = new google.maps.InfoWindow();
 			marker = new google.maps.Marker({
@@ -281,36 +282,40 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * [addGoogleMapTextOverlay description]
-	 *
-	 * http://stackoverflow.com/questions/5099862/how-to-create-a-text-overlay-in-google-maps-api-v3-that-does-not-pan
+	 * Add new google map text overlay
+	 * 
+	 * @see http://stackoverflow.com/questions/5099862/how-to-create-a-text-overlay-in-google-maps-api-v3-that-does-not-pan
 	 */
 	function addGoogleMapTextOverlay() {
-		if (debugMode) logText('Add text overlay', config.city);
+		if (debugMode) logText('Add google map text overlay', config.city);
 
 		$('<div id="tweet-text">Tweets about <span class="city-text">' + config.city + '</span></div>').appendTo('.container');
 		var tweetTextControl = document.getElementById(tweetTextId);
 		map.controls[google.maps.ControlPosition.TOP_CENTER].push(tweetTextControl);
 	}
 
+	/**
+	 * Update google map text overlay (remove and add again)
+	 */
 	function updateGoogleMapTextOverlay() {
-		if (debugMode) logText('Update text overlay');
+		if (debugMode) logText('Update google map text overlay');
 
 		removeGoogleMapTextOverlay();
 		addGoogleMapTextOverlay();
 	}
 
+	/**
+	 * Remove google map text overlay
+	 */
 	function removeGoogleMapTextOverlay() {
-		if (debugMode) logText('Remove text overlay');
+		if (debugMode) logText('Remove google map text overlay');
 		
 		$tweetText = $('#' + tweetTextId);
 		$tweetText.remove();
 	}
 
 	/**
-	 * [updateAllInputDatas description]
-	 * Update input data by config data
-	 * @return {[type]} [description]
+	 * Update all input data by config data
 	 */
 	function updateAllInputData() {
 		updateZoomLevelInput();
@@ -320,8 +325,7 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * Update config data from input field
-	 * @return {[type]} [description]
+	 * Update config data by input field
 	 */
 	function updateAllConfigData() {
 		updateZoomLevel()
@@ -331,8 +335,7 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * Update map canvas
-	 * @return {[type]} [description]
+	 * Update google map canvas
 	 */
 	function updateGoogleMap() {
 		setGoogleMapZoomLevel(config.zoomLevel);
@@ -349,10 +352,7 @@ jQuery(document).ready(function() {
 		================================================================*/
 
 	/**
-	 * Dummy marker on the google map
-	 * not work
-	 * 
-	 * @return {[type]} [description]
+	 * Dummy marker and update the map
 	 */
 	function dummyMarker() {
 		config = {
@@ -360,10 +360,9 @@ jQuery(document).ready(function() {
 			lng: 151.25,
 			zoomLevel: 11,
 			styles: mapStyles.lightDream,
-			city: 'Coogee Bay' // this is not a city name
+			city: 'Coogee Bay', // this's not a city name
+			latestCity: ''
 		};
-		updateAllInputData();
-		updateGoogleMap();
 
 		var locations = [
 			{
@@ -407,50 +406,130 @@ jQuery(document).ready(function() {
 	}
 
 	/*================================================================
+		#Debug / Log
+		================================================================*/
+
+	/**
+	 * Log zoom level of config into console
+	 */
+	function logZoomLevel() {
+		logText('Zoom Level', config.zoomLevel);
+	}
+
+	/**
+	 * Log latitude of config into console
+	 */
+	function logLat() {
+		logText('Lat', config.lat);
+	}
+
+	/**
+	 * Log longitude of config into console
+	 */
+	function logLng() {
+		logText('Lng', config.lng);
+	}
+
+	/**
+	 * Log city of config into console
+	 */
+	function logCity() {
+		logText('City', config.city);
+	}
+
+	/**
+	 * Log text into console
+	 * 
+	 * @param {String} title
+	 * @param {String} data
+	 */
+	function logText(title, data) {
+		if (typeof data === 'undefined') {
+			data = '';
+		} else {
+			data = ': ' + data;
+		}
+		console.log(title + data);
+	}
+
+	/*================================================================
 		#Event listener
 		================================================================*/
 
+	/**
+	 * When zoom level input is changed then update zoom level of google map
+	 */
 	$zoomLevelInput.on('input',function(e){
 		updateZoomLevel();
 		if (debugMode) logZoomLevel();
 		setGoogleMapZoomLevel(config.zoomLevel);
 	});
 
+	/**
+	 * When latitude input is changed then update latitude of google map
+	 */
 	$latInput.on('input',function(e){
 		updateLat();
 		if (debugMode) logLat();
 		setGoogleMapLatLng(config.lat, config.lng);
 	});
 
+	/**
+	 * When longitude input is changed then update longitude of google map
+	 */
 	$lngInput.on('input',function(e){
 		updateLng();
 		if (debugMode) logLng();
 		setGoogleMapLatLng(config.lat, config.lng);
 	});
 
+	/**
+	 * When city input is changed then update center of google map
+	 */
 	$cityInput.on('input',function(e){
 		updateCity();
 		if (debugMode) logCity();
 		updateGoogleMapTextOverlay(config.city);
 	});
 
+	/**
+	 * When click 'Remove All Markers' then remove all markers on the google map
+	 */
 	$removeMarkersBtn.on('click', function(e) {
-		removeGoogleMapAllMarkers(markers);
+		removeAllGoogleMapMarkers(markers);
 	});
 
+	/**
+	 * When click 'Add text overlay' then update text overlay on the google map
+	 */
+	$addTextOverlayBtn.on('click', function(e) {
+		updateGoogleMapTextOverlay();
+	});
+
+	/**
+	 * When click 'Update text overlay' then update text overlay on the google map
+	 */
 	$updateTextOverlayBtn.on('click', function(e) {
-		addGoogleMapTextOverlay();
+		updateGoogleMapTextOverlay();
 	});
 
+	/**
+	 * When click 'Remove text overlay' then remove text overlay on the google map
+	 */
 	$removeTextOverlayBtn.on('click', function(e) {
 		removeGoogleMapTextOverlay();
 	});
 
+	/**
+	 * When submit the form then get tweets and update the map
+	 */
 	$cityForm.on('submit', function(e) {
 		e.preventDefault();
 		cityName = $cityInput.val();
 
-		if (latestCity.toUpperCase() !== cityName.toUpperCase()) {
+		if (debugMode) console.log('Form submit');
+
+		if (config.latestCity.toUpperCase() !== cityName.toUpperCase()) {
 			$mapLoading.fadeIn('slow');
 
 			try {
@@ -465,11 +544,11 @@ jQuery(document).ready(function() {
 						if (results.status.toUpperCase() === 'OK') {
 							var locations = $.parseJSON(results.data);
 
-							setInputLat(results.lat);
-							setInputLng(results.lng);
+							setLatInput(results.lat);
+							setLngInput(results.lng);
 
 							// remove all previous marker on the map
-							removeGoogleMapAllMarkers();
+							removeAllGoogleMapMarkers();
 
 							// add new marker on the map
 							addGoogleMapMarkerWithInfo(locations);
@@ -483,16 +562,23 @@ jQuery(document).ready(function() {
 						}
 					}
 				});
+
 			} catch (exception) {
+
 				// if error then ?
-				console.log('can\'t get tweet data');
+				console.log('Can\'t get tweet data');
+
 			} finally {
+
 				$mapLoading.fadeOut('slow');
 			}
 
-			latestCity = cityName;
+			config.latestCity = cityName;
+
 		} else {
+
 			// do nothing
+			if (debugMode) console.log('Form submit: Do nothing');
 		}
 
 		return false;
@@ -502,6 +588,9 @@ jQuery(document).ready(function() {
 		#Init
 		================================================================*/
 
+	/**
+	 * Initialize config data and map options
+	 */
 	function initConfig() {
 		debugMode = true;
 
@@ -510,9 +599,9 @@ jQuery(document).ready(function() {
 			lng: 100.5018,
 			zoomLevel: 12,
 			styles: mapStyles.lightDream,
-			city: 'Bangkok'
+			city: 'Bangkok',
+			latestCity: ''
 		};
-		latestCity = '';
 
 		mapOptions = {
 			center: {
@@ -528,7 +617,10 @@ jQuery(document).ready(function() {
 	// function initMarker() {
 
 	// }
-
+	
+	/**
+	 * Initialize google map
+	 */
 	function initGoogleMap() {
 		map = new google.maps.Map(
 			document.getElementById('map-canvas'),
@@ -540,8 +632,14 @@ jQuery(document).ready(function() {
 	 * Initialize an application
 	 */
 	function initialize() {
+		// Init
 		initConfig();
 		initGoogleMap();
+
+		// Testing purpose
+		// dummyMarker();
+		
+		// Update
 		updateAllInputData();
 		updateGoogleMap();
 	}
