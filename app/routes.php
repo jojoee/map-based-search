@@ -12,11 +12,28 @@
 */
 
 Route::get('/', 'MapController@index');
-Route::get('map/get', function()
-{
-	return Redirect::to('/');
-});
-Route::get('map/get/{city}', 'MapController@get');
+Route::get('get/{city}', 'MapController@getTweets');
 
-// Route::resource('map', 'MapController');
-// Route::resource('map', 'MapController', array('only' => array('show')));
+Route::get('search', function() { return Redirect::to('/'); });
+Route::get('search/get', function()
+{
+	if (! Request::ajax()) return Redirect::to('/');
+
+	$cookieName = Config::get('constants.historyCookieName');
+	$history = Cookie::get($cookieName);
+
+	return Response::make($history);
+});
+
+Route::get('search/update', function() { return Redirect::to('/'); });
+Route::get('search/update/{city}', function($city)
+{
+	if (! Request::ajax()) return Redirect::to('/');
+
+	$cookieName = Config::get('constants.historyCookieName');
+	$history = updateSearchHistory(Cookie::get($cookieName), $city);
+
+	$cookie = Cookie::forever($cookieName, $history);
+
+	return Response::make('OK')->withCookie($cookie);
+});

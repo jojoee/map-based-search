@@ -4,7 +4,7 @@
  * @see http://stackoverflow.com/questions/14636536/how-to-check-if-a-variable-is-an-integer-in-javascript
  * 
  * @param  {Number}  num
- * @return {boolean}
+ * @return {Boolean}
  */
 function isInteger(num) {
 	return num === parseInt(num, 10);
@@ -40,4 +40,62 @@ function stringToInt(str) {
  */
 function stringToFloat(str) {
 	return parseFloat(str);
+}
+
+/**
+ * Split string by comma
+ * 
+ * @param  {String} str
+ * @return {Array}
+ */
+function splitStringByComma(str) {
+	return str.split(',');
+}
+
+/**
+ * Replace space with plus
+ * 
+ * @see http://stackoverflow.com/questions/3794919/replace-all-spaces-in-a-string-with
+ * 
+ * @param  {String} str
+ * @return {String}
+ */
+function replaceSpaceWithPlus(str) {
+	return str.split(' ').join('+');
+}
+
+/**
+ * Replace slash with plus
+ * 
+ * @see http://stackoverflow.com/questions/4566771/how-to-globally-replace-a-forward-slash-in-a-javascript-string
+ * @see http://stackoverflow.com/questions/10610402/javascript-replace-all-commas-in-a-string
+ * 
+ * @param  {String} str
+ * @return {String}
+ */
+function replaceSlashWithPlus(str) {
+	return str.replace(/\//g, '+');
+}
+
+/**
+ * Replace plus with space
+ * 
+ * @param  {String} str
+ * @return {String}
+ */
+function replacePlusWithSpace(str) {
+	return str.replace(/\+/g, ' ');	
+}
+
+/**
+ * Clean city input string
+ * 
+ * @param  {String} str
+ * @return {String}
+ */
+function cleanCityName(str) {
+	var results;
+	results = replaceSlashWithPlus(str);
+	results = replaceSpaceWithPlus(str);
+	return results;
 }

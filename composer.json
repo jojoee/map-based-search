@@ -18,7 +18,8 @@
 			"app/tests/TestCase.php"
 		],
 		"files": [
-			"app/helpers/useful_functions.php",
+			"app/helpers/HelperFunction.php",
+			"app/helpers/HistoryHelper.php",
 			"app/helpers/TwitterHelper.php"
 		]
 	},

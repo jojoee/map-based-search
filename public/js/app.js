@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
 
 	var $zoomLevelInput = $('#zoom-level');
 	var $latInput = $('#lat');
@@ -19,6 +19,15 @@ jQuery(document).ready(function() {
 	var $mapLoading  = $('.map-loading');
 
 	var $logMsg = $('.log-msg');
+
+	var $historyBtn = $('.history');
+	var historyItemSelector = '.history-item';
+	var $historyItem = $(historyItemSelector);
+	var $historyBack = $('.history-back');
+
+	var $historyPanel = $('.history-panel');
+
+	var isHistoryUpdated = true;
 	
 	/**
 	 * Update zoom level of config
@@ -106,44 +115,6 @@ jQuery(document).ready(function() {
 	 */
 	function updateCityInput() {
 		$cityInput.val(config.city);
-	}
-
-	/**
-	 * Replace space with plus
-	 * 
-	 * @see http://stackoverflow.com/questions/3794919/replace-all-spaces-in-a-string-with
-	 * 
-	 * @param  {String} str
-	 * @return {String}
-	 */
-	function replaceSpaceWithPlus(str) {
-		return str.split(' ').join('+');
-	}
-
-	/**
-	 * Replace slash with plus
-	 * 
-	 * @see http://stackoverflow.com/questions/4566771/how-to-globally-replace-a-forward-slash-in-a-javascript-string
-	 * @see http://stackoverflow.com/questions/10610402/javascript-replace-all-commas-in-a-string
-	 * 
-	 * @param  {String} str
-	 * @return {String}
-	 */
-	function replaceSlashWithPlus(str) {
-		return str.replace(/\//g, '+');
-	}
-
-	/**
-	 * Clean city input string
-	 * 
-	 * @param  {String} str
-	 * @return {String}
-	 */
-	function cleanCityName(str) {
-		var results;
-		results = replaceSlashWithPlus(str);
-		results = replaceSpaceWithPlus(str);
-		return results;
 	}
 
 	/*================================================================
@@ -345,9 +316,165 @@ jQuery(document).ready(function() {
 		updateGoogleMapTextOverlay()
 	}
 
-	// function getLocationData() {
+	/**
+	 * Get search history and open the history panel
+	 */
+	function openHistoryPanel() {
 
-	// }
+		$mapLoading.fadeIn('slow');
+
+		// get search history data
+		if (isHistoryUpdated) {
+			try {
+				$.get('/search/get', function(data) {
+
+					var history = data;
+
+					if (history !== '') {
+						// order by most recent first
+						history = splitStringByComma(history).reverse();
+						$historyItem.remove();
+
+						$.each(history, function(index, value) {
+							$('<li class="history-item">' + replacePlusWithSpace(value) + '</li>').appendTo('.history-list');
+						});
+
+						isHistoryUpdated = false;
+
+						$historyItem = $('.history-item');
+						console.log($historyItem);
+					}
+
+					if (debugMode) {
+						if (history === '') {
+							logText('No search history');
+						} else {
+							logText('Search history', history);
+						}
+					}
+				});
+
+			} catch (exception) {
+
+				// if error then ?
+				logText('Can\'t get search history');
+
+			} finally {
+
+				// do nothing
+			}
+		} else {
+			logText('Not get new search history');
+		}
+
+		$mapLoading.fadeOut('slow');
+
+		// bind history item again
+		$historyItem = $('.history-item');
+		console.log($historyItem);
+
+		// open history panel
+		$historyPanel.fadeIn('slow');
+	}
+
+	/**
+	 * Update search history with city name
+	 * 
+	 * @param {String} cityName
+	 */
+	function updateSearchHistory(cityName)
+	{
+		try {
+			$.get('/search/update/' + cleanCityName(cityName), function(data) {
+				if (debugMode)
+				{
+					if (data === 'OK') {
+						logText('Update search history: success');
+					} else {
+						logText('Can\' update search history');
+					}	
+				}
+
+				isHistoryUpdated = true;
+			});
+
+		} catch (exception) {
+
+			console.log(exception);
+		}
+	}
+
+	/**
+	 * Get new tweets from city name and update google map with new tweets
+	 * 
+	 * @param {String} cityName
+	 */
+	function updateGoogleMapWithTweets(cityName) {
+		$mapLoading.fadeIn('slow');
+
+		try {
+			$.get('/get/' + cleanCityName(cityName), function(data) {
+
+				if (data === 'Twitter - Bad Authentication data') {
+					logText('Twitter - Bad Authentication data');
+				} else {
+					if (debugMode) console.log(data);
+					
+					var results = $.parseJSON(data);
+
+					if (results.status.toUpperCase() === 'OK') {
+
+						var locations = $.parseJSON(results.data);
+
+						setLatInput(results.lat);
+						setLngInput(results.lng);
+
+						// remove all previous marker on the map
+						removeAllGoogleMapMarkers();
+
+						// add new marker on the map
+						addGoogleMapMarkerWithInfo(locations);
+
+						updateAllConfigData();
+						updateGoogleMap();
+
+						// update latest search
+						config.latestCity = cityName;
+
+						if (debugMode) logText('Update Map with new tweets: success');
+
+					} else {
+
+						// if error then
+						logText('Error', results.errorMsg);
+					}
+				}
+			});
+
+		} catch (exception) {
+			// if error then ?
+			logText('Can\'t get tweet data');
+
+		} finally {
+			
+			$mapLoading.fadeOut('slow');
+		}
+	}
+
+	/**
+	 * Perform search tweet
+	 */
+	function performSearchTweets() {
+		cityName = $cityInput.val();
+		if (config.latestCity.toUpperCase() !== cityName.toUpperCase()) {
+			updateSearchHistory(cityName);
+			updateGoogleMapWithTweets(cityName);
+
+		} else {
+			// do nothing
+			if (debugMode) logText('Search: Do nothing');
+		}
+	}
 
 	/*================================================================
 		#Test / Dummy
@@ -523,70 +650,41 @@ jQuery(document).ready(function() {
 	});
 
 	/**
+	 * Open history panel when click 'History' button
+	 */
+	$historyBtn.on('click', function(e) {
+		openHistoryPanel();
+	});
+
+	/**
+	 * When click 'Back to the tweets' then hide the history panel
+	 */
+	$historyBack.on('click', function(e) {
+		$historyPanel.fadeOut('slow');
+	});
+
+	/**
+	 * When click search history item then seach again
+	 *
+	 * @see http://stackoverflow.com/questions/1359018/in-jquery-how-to-attach-events-to-dynamic-html-elements
+	 */
+	$('body').on('click', historyItemSelector, function() {
+		$historyPanel.fadeOut('slow');
+
+		setCityInput($(this).text());
+
+		// re search tweets
+		performSearchTweets();
+	});
+
+	/**
 	 * When submit the form then get tweets and update the map
 	 */
 	$cityForm.on('submit', function(e) {
 		e.preventDefault();
-		cityName = $cityInput.val();
-
 		if (debugMode) logText('Form submit');
 
-		if (config.latestCity.toUpperCase() !== cityName.toUpperCase()) {
-			$mapLoading.fadeIn('slow');
-
-			try {
-				$.get('/map/get/' + cleanCityName(cityName), function(data) {
-
-					if (data === 'Twitter - Bad Authentication data') {
-						logText('Twitter - Bad Authentication data');
-					} else {
-						if (debugMode) console.log(data);
-						
-						var results = $.parseJSON(data);
-
-						if (results.status.toUpperCase() === 'OK') {
-
-							var locations = $.parseJSON(results.data);
-
-							setLatInput(results.lat);
-							setLngInput(results.lng);
-
-							// remove all previous marker on the map
-							removeAllGoogleMapMarkers();
-
-							// add new marker on the map
-							addGoogleMapMarkerWithInfo(locations);
-
-							updateAllConfigData();
-							updateGoogleMap();
-
-							$mapLoading.fadeOut('slow');
-
-						} else {
-
-							// if error then
-							logText('Error', results.errorMsg);
-						}
-					}
-				});
-
-			} catch (exception) {
-
-				// if error then ?
-				logText('Can\'t get tweet data');
-
-			} finally {
-
-				$mapLoading.fadeOut('slow');
-			}
-
-			config.latestCity = cityName;
-
-		} else {
-
-			// do nothing
-			if (debugMode) logText('Form submit: Do nothing');
-		}
+		performSearchTweets();
 
 		return false;
 	});
@@ -604,7 +702,7 @@ jQuery(document).ready(function() {
 		config = {
 			lat: 13.7563,
 			lng: 100.5018,
-			zoomLevel: 10,
+			zoomLevel: 12,
 			styles: mapStyles.lightDream,
 			city: 'Bangkok',
 			latestCity: ''
@@ -620,10 +718,6 @@ jQuery(document).ready(function() {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 	}
-
-	// function initMarker() {
-
-	// }
 	
 	/**
 	 * Initialize google map

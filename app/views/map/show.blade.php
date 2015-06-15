@@ -7,14 +7,30 @@
 		<div class="loading-text">Loading</div>
 	</div>
 </div>
+<div class="history-panel hidden">
+	<div class="history-overlay"></div>
+	<ul class="history-list">
+		<li class="history-back history-btn">Back to the tweets</li>
+	</ul>
+</div>
 <div id="map-config"><!-- #map-config -->
-	<label for="zoom-level">Zoom Level: </label><input type="text" name="zoom-level" id="zoom-level" placeholder="Zoom level">
-	<label for="lat">Lat: </label><input type="text" name="lat" id="lat" placeholder="Latitude">
-	<label for="lng">Lng: </label><input type="text" name="lng" id="lng" placeholder="Longitude">
-	<div class="remove-all-markers btn">Remove All Markers</div>
-	<div class="add-text-overlay btn">Add text overlay</div>
-	<div class="update-text-overlay btn">Update text overlay</div>
-	<div class="remove-text-overlay btn">Remove text overlay</div>
+	<div class="zoom-level-box">
+		<label for="zoom-level">Zoom Level: </label><input type="text" name="zoom-level" id="zoom-level" placeholder="Zoom level">
+	</div>
+	<div class="lat-box">
+		<label for="lat">Lat: </label><input type="text" name="lat" id="lat" placeholder="Latitude">
+	</div>
+	<div class="lng-box">
+		<label for="lng">Lng: </label><input type="text" name="lng" id="lng" placeholder="Longitude">	
+	</div>
+	<div class="btn-box">
+		<div class="remove-all-markers btn">Remove All Markers</div>
+		<div class="add-text-overlay btn">Add text overlay</div>
+		<div class="update-text-overlay btn">Update text overlay</div>
+		<div class="remove-text-overlay btn">Remove text overlay</div>	
+	</div>
+
+	<div class="history btn">History</div>
 	<div class="latest-log">
 		<span>Latest log:</span>
 		<span class="log-msg">No error</span>

@@ -71,6 +71,51 @@ body {
 .log-msg {
   color: #F00;
 }
+.zoom-level-box,
+.lat-box,
+.lng-box,
+.btn-box {
+  float: left;
+  display: none;
+}
+.history-panel {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.history-overlay {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: #ffffff;
+  opacity: .8;
+  position: fixed;
+}
+.history-list {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 102;
+  text-align: center;
+  overflow-y: scroll;
+}
+.history-list li {
+  font-size: 16px;
+  cursor: pointer;
+  padding: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #5e97ff;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  transition: all .4s ease;
+}
+.history-list li:hover {
+  color: #ffffff;
+  background-color: #5e97ff;
+}
 /*================================================================
   #Map
   ================================================================*/
