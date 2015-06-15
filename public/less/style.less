@@ -52,6 +52,11 @@ body {
 	.hidden();
 }
 
+input {
+	-webkit-appearance: none;
+	border-radius: 0;
+}
+
 /*================================================================
 	#Map
 	================================================================*/
@@ -161,7 +166,8 @@ button.history {
 .city-box #city,
 .submit-box input[type=submit],
 button.history {
-	font-size: 14px;
+	// font-size: 14px;
+	font-size: 12px;
 
 	@media (min-width: @screen-xs-min) {
 		font-size: 18px;
@@ -318,7 +324,7 @@ button.history {
 
 #tweet-text {
 	padding: @space-md @space-sm 0;
-	font-size: @fontsize-md;
+	font-size: 20px;
 	color: @accent-color;
 	text-transform: uppercase;
 	text-shadow: -1px 0 @white, 0 1px @white, 1px 0 @white, 0 -1px @white;

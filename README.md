@@ -59,6 +59,7 @@ Due to `Google Places API` will provide the city name with other infomations (su
 
 - [Laravel 4.2](http://laravel.com/)
 - [jQuery 2.1.4](https://jquery.com/)
+- [Meyer's reset CSS 2.0](http://meyerweb.com/eric/tools/css/reset/)
 - [Font Awesome 4.3.0](http://fortawesome.github.io/Font-Awesome/)
 - [TwitterOAuth 0.5.3](https://twitteroauth.com/)
 
