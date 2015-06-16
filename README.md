@@ -34,16 +34,10 @@ Simple responsive website that allows the user to search for a city  and display
 - Default google map style: [light dream](https://snazzymaps.com/style/134/light-dream)
 - Javascript unit test with [Jasmine](http://jasmine.github.io/) - [see test results](http://mbs.jojoee.com/jasmine) (in progress)
 
-## Issue
-
-- Can't validate city name before send a request (cause don't have all city names in database)
-- Can't control lat and lng that's provided by `Google Geocoding API`
-- Can't use `Google Places API` for city autocomplete
-
-Due to `Google Places API` will provide the city name with other infomations (such as, search `Bangkok` then it'll return `Bangkok, Thailand`, search `London` then it'll return `London, United Kingdom`) which's hard to search the tweet that contain the returned data
-
 ## Future update
 
+- City autocomplete
+- Error message when not found any tweet
 - PHP unit test
 - Create Laravel database migration & seed
 - Add redundant resources
@@ -57,15 +51,15 @@ Due to `Google Places API` will provide the city name with other infomations (su
 
 ## Components
 
-- [Laravel 4.2](http://laravel.com/)
-- [jQuery 2.1.4](https://jquery.com/)
-- [Meyer's reset CSS 2.0](http://meyerweb.com/eric/tools/css/reset/)
-- [Font Awesome 4.3.0](http://fortawesome.github.io/Font-Awesome/)
-- [TwitterOAuth 0.5.3](https://twitteroauth.com/)
+- [Laravel 4.2](http://laravel.com/) - [MIT](https://github.com/laravel/laravel)
+- [jQuery 2.1.4](https://jquery.com/) - [MIT](https://jquery.org/license/)
+- [Meyer's reset CSS 2.0](http://meyerweb.com/eric/tools/css/reset/) - [Public Domain](https://creativecommons.org/licenses/publicdomain/)
+- [Font Awesome 4.3.0](http://fortawesome.github.io/Font-Awesome/) - [MIT](http://fortawesome.github.io/Font-Awesome/license/)
+- [TwitterOAuth 0.5.3](https://twitteroauth.com/) - [License](https://github.com/abraham/twitteroauth/blob/master/LICENSE.md)
 
 ## Google map style
 
-Currently, the google map style setting is not available
+Currently, the google map style setting is not available. [CC BY-SA 3.0](https://snazzymaps.com/about)
 
 - [Subtle Grayscale](https://snazzymaps.com/style/15/subtle-grayscale)
 - [Shades of Grey](https://snazzymaps.com/style/38/shades-of-grey)
