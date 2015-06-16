@@ -117,8 +117,8 @@ class MapController extends \BaseController {
 	}
 
 	/*================================================================
-    #Private
-    ================================================================*/
+	  #Private
+	  ================================================================*/
 
 	/**
 	 * Get latitude longitude by city name via Google Geocoding API

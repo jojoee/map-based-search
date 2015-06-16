@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'mbs.jojoee.com_db',
-			'username'  => 'root',
-			'password'  => 'myServer',
+			'database'  => 'homestead',
+			'username'  => 'homestead',
+			'password'  => 'secret',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
