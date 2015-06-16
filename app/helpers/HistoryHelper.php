@@ -32,7 +32,7 @@ function updateSearchHistory($history, $city)
 		$data[] = $city;
 
 		// if array 
-		if (count($data) > $maximumHistory) $data = array_shift($data);
+		if (count($data) > $maximumHistory) array_shift($data);
 
 		$data = implode($punc, $data);
 	}
