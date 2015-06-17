@@ -728,6 +728,7 @@ jQuery(document).ready(function($) {
 			},
 			zoom: config.zoomLevel,
 			styles: config.styles,
+			scrollwheel: false,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 	}
