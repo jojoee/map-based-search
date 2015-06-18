@@ -17,7 +17,7 @@ Simple responsive website that allows the user to search for a city  and display
 ## Code / Development
 
 - MVC by Laravel
-- PHP Code styling: [Laravel 4.2](http://laravel.com/docs/4.2/contributions) (PSR-0 and PSR-1)
+- PHP Code styling: [Laravel](http://laravel.com/docs/4.2/contributions) (PSR-0 and PSR-1)
 - Javascript Code styling: [Airbnb JavaScript Style Guide() {](https://github.com/airbnb/javascript)
 - PHP DocBlockr: [phpDocumentor](http://phpdoc.org/)
 - Javascript DocBlockr: [JSDoc](http://usejsdoc.org/)
@@ -56,6 +56,7 @@ Simple responsive website that allows the user to search for a city  and display
 - [Meyer's reset CSS 2.0](http://meyerweb.com/eric/tools/css/reset/) - [Public Domain](https://creativecommons.org/licenses/publicdomain/)
 - [Font Awesome 4.3.0](http://fortawesome.github.io/Font-Awesome/) - [MIT](http://fortawesome.github.io/Font-Awesome/license/)
 - [TwitterOAuth 0.5.3](https://twitteroauth.com/) - [License](https://github.com/abraham/twitteroauth/blob/master/LICENSE.md)
+- [Jasmine 2.2.1](http://jasmine.github.io/) - [MIT](https://github.com/jasmine/jasmine)
 
 ## Google map style
 
