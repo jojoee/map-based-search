@@ -22,35 +22,6 @@ input {
   border-radius: 0;
 }
 /*================================================================
-  #Map
-  ================================================================*/
-.map-loading {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  font-size: 24px;
-  z-index: 99;
-}
-.loading-overlay {
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  opacity: .8;
-  position: fixed;
-}
-.loading-icon {
-  text-align: center;
-  font-size: 108px;
-  position: fixed;
-  z-index: 999;
-  width: 100%;
-  padding-top: 20%;
-}
-.loading-text {
-  font-size: 32px;
-  text-transform: uppercase;
-}
-/*================================================================
   #Map config
   ================================================================*/
 .red-btn {
@@ -191,82 +162,32 @@ button.history {
 /*================================================================
   #Page loading
   ================================================================*/
-.loading {
+.page-loading {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  margin: 0 auto;
-  padding-top: 148px;
+  font-size: 24px;
   z-index: 99;
 }
-.loading-inner {
-  width: 40px;
-  margin: 0 auto;
+.loading-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  opacity: .8;
+  position: fixed;
 }
-.loading-section {
-  width: 40px;
-  height: 26px;
-}
-.box {
-  width: 12px;
-  height: 12px;
-  margin-left: 2px;
-  margin-bottom: 2px;
-  background: #ffffff;
-  float: left;
-}
-.box:nth-child(3n+1) {
-  margin-left: 0;
-}
-.box.box-dance:nth-child(1) {
-  -webkit-animation-delay: -1.2s;
-}
-.box.box-dance:nth-child(2) {
-  -webkit-animation-delay: -2s;
-}
-.box.box-dance:nth-child(3) {
-  -webkit-animation-delay: -1.6s;
-}
-.box.box-dance:nth-child(4) {
-  -webkit-animation-delay: -3.2s;
-}
-.box.box-dance:nth-child(5) {
-  -webkit-animation-delay: -0.4s;
-}
-.box.box-dance:nth-child(6) {
-  -webkit-animation-delay: -3.6s;
-}
-.box.box-dance:nth-child(7) {
-  -webkit-animation-delay: -2.4s;
-}
-.box.box-dance:nth-child(8) {
-  -webkit-animation-delay: -2.8s;
-}
-.box.box-dance:nth-child(9) {
-  -webkit-animation-delay: -0.8s;
-}
-.box-dance {
-  -webkit-animation: dance 840ms infinite alternate;
-}
-@-webkit-keyframes dance {
-  0% {
-    background: rgba(94, 151, 255, 0.9);
-  }
-  100% {
-    background: rgba(94, 151, 255, 0.32);
-    -webkit-transform: scale(0.65);
-  }
+.loading-icon {
+  text-align: center;
+  font-size: 108px;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  padding-top: 20%;
 }
 .loading-text {
-  position: fixed;
-  top: 216px;
-  text-align: center;
-  width: 100%;
-  color: #616161;
-  font-size: 14px;
-  font-family: sans-serif;
-  letter-spacing: 3px;
+  font-size: 32px;
+  text-transform: uppercase;
+  margin-top: 24px;
 }
 /*================================================================
   #Map
@@ -290,6 +211,7 @@ button.history {
     font-size: 32px;
   }
 }
+/* fix issue - have scroll in the info window */
 div.gm-style-iw > div,
 div.gm-style-iw > div > div {
   overflow: visible !important;

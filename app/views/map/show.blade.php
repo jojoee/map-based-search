@@ -1,21 +1,6 @@
 @include('layouts.header')
-<div id="loading" class="loading">
-  <div class="loading-inner">
-    <div class="loading-section">
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-      <div class="box box-dance">&nbsp;</div>
-    </div>
-  </div>
-  <p class="loading-text">loading</p>
-</div><!-- .loading -->
-<div class="map-loading hidden">
+
+<div class="page-loading">
 	<div class="loading-overlay"></div>
 	<div class="loading-icon">
 		<i class="fa fa-cog fa-spin"></i>

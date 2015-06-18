@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 	var $tweetText = $('#' + tweetTextId);
 	var $cityText = $('.city-text');
 
-	var $mapLoading	= $('.map-loading');
+	var $pageLoading	= $('.page-loading');
 
 	var $logMsg = $('.log-msg');
 
@@ -25,9 +25,8 @@ jQuery(document).ready(function($) {
 	var $historyItem = $(historyItemSelector);
 	var $historyBack = $('.history-back');
 	var $historyPanel = $('.history-panel');
-	var isHistoryUpdated = true;
 
-	var $pageLoading = $('.loading');
+	var isHistoryUpdated = true;
 	
 	/*================================================================
 	  #Google map utilities
@@ -147,6 +146,33 @@ jQuery(document).ready(function($) {
 	 */
 	function updateCityInput() {
 		$cityInput.val(config.city);
+	}
+
+	/**
+	 * Show page loading effect
+	 */
+	function showPageLoading() {
+		$pageLoading.fadeIn('slow');
+	}
+
+	/**
+	 * Hide page loading effect
+	 */
+	function hidePageLoading() {
+		$pageLoading.fadeOut('slow');
+	}
+
+	/**
+	 * Hide page loading effect with delay
+	 */
+	function hidePageLoadingWithDelay() {
+		var delayTime = 600;
+
+		setTimeout(function(){
+			$pageLoading
+				.delay( delayTime )
+				.fadeOut( 'slow' );
+		}, delayTime );
 	}
 
 	/**
@@ -321,7 +347,7 @@ jQuery(document).ready(function($) {
 	 */
 	function openHistoryPanel() {
 
-		$mapLoading.fadeIn('slow');
+		showPageLoading();
 
 		// get search history data
 		if (isHistoryUpdated) {
@@ -366,7 +392,7 @@ jQuery(document).ready(function($) {
 			if (debugMode) logText('Not get new search history');
 		}
 
-		$mapLoading.fadeOut('slow');
+		hidePageLoading();
 
 		// bind history item again
 		$historyItem = $('.history-item');
@@ -408,7 +434,7 @@ jQuery(document).ready(function($) {
 	 * @param {String} cityName
 	 */
 	function updateGoogleMapWithTweets(cityName) {
-		$mapLoading.fadeIn('slow');
+		showPageLoading();
 
 		try {
 			$.get('/get/' + cleanCityName(cityName), function(data) {
@@ -455,7 +481,7 @@ jQuery(document).ready(function($) {
 
 		} finally {
 			
-			$mapLoading.fadeOut('slow');
+			hidePageLoading();
 		}
 	}
 
@@ -472,21 +498,6 @@ jQuery(document).ready(function($) {
 			// do nothing
 			if (debugMode) logText('Search: Do nothing');
 		}
-	}
-
-	/**
-	 * Remove page loading effect
-	 */
-	function removePageLoading() {
-		var delayTime = 600;
-
-		setTimeout(function(){
-			$pageLoading
-				.delay( delayTime )
-				.fadeOut( 'slow', function(){
-					$( this ).remove();
-				});
-		}, delayTime );
 	}
 
 	/*================================================================
@@ -767,7 +778,7 @@ jQuery(document).ready(function($) {
 		updateGoogleMap();
 
 		// Others
-		removePageLoading();
+		hidePageLoadingWithDelay();
 	}
 
 	google.maps.event.addDomListener(window, 'load', initialize);
