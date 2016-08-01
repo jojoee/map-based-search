@@ -23,7 +23,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'mbs.jojoee.com_db',
+			'database'  => 'mbs_db',
 			'username'  => 'root',
 			'password'  => 'myServer',
 			'charset'   => 'utf8',
