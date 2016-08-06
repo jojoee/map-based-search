@@ -6,7 +6,7 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"abraham/twitteroauth": "0.6.4"
+		"abraham/twitteroauth": "0.5.3"
 	},
 	"autoload": {
 		"classmap": [
