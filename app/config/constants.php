@@ -1,11 +1,14 @@
 <?php
 
 return array(
-	'twitterConsumerKey' => 'Your Twitter Consumer Key',
-	'twitterConsumerSecret' => 'Your Twitter Consumer Secret',
-	'twitterAccessToken' => 'Your Twitter Access Token',
-	'twitterAccessTokenSecret' => 'Your Twitter Access Token Secret',
+	'googleAnalyticsKey'        => GOOGLE_ANALYTICS_KEY,
+	'googleMapKey'              => GOOGLE_MAP_KEY,
 
-	'historyCookieName' => 'history',
-	'maximumSearchHistory' => 20
+	'twitterConsumerKey'        => TWITTER_CONSUMER_KEY,
+	'twitterConsumerSecret'     => TWITTER_CONSUMER_SECRET,
+	'twitterAccessToken'        => TWITTER_ACCESS_TOKEN,
+	'twitterAccessTokenSecret'  => TWITTER_ACCESS_TOKEN_SECRET,
+
+	'historyCookieName'         => 'history',
+	'maximumSearchHistory'      => 20
 );

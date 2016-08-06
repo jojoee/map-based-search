@@ -26,7 +26,11 @@ class MapController extends \BaseController {
 	 */
 	public function index()
 	{
-		$data = array();
+		$data = [
+			'googleAnalyticsKey'  => Config::get('constants.googleAnalyticsKey'),
+			'googleMapApiKey'     => Config::get('constants.googleMapKey')
+		];
+
 		return View::make('map.show', $data);
 	}
 

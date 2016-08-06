@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'homestead',
-			'username'  => 'homestead',
-			'password'  => 'secret',
+			'host'      => MBS_DB_PROD_HOST,
+			'database'  => MBS_DB_PROD_NAME,
+			'username'  => MBS_DB_PROD_USER,
+			'password'  => MBS_DB_PROD_PASS,
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
