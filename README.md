@@ -1,5 +1,4 @@
 # Map Based Search
-
 Simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map. (support english only)
 
 ## Getting Started
@@ -7,7 +6,7 @@ Simple responsive website that allows the user to search for a city  and display
 2. Install [Composer](https://getcomposer.org/)
 3. Browse to project directory
 4. Install dependencies: `composer install`
-5. Setup config
+5. Setup config below and seed database by: `php artisan migrate`
 ```
 5.1 Server environment variable
 SetEnv MBS_SITE_ENV "prod"
@@ -22,7 +21,6 @@ app/config/constants.php
 ```
 
 ## Screenshot
-
 [![Screenshot 1](https://raw.githubusercontent.com/jojoee/map-based-search/master/screenshot/screenshot1.jpg "Screenshot 1")](http://mbs.jojoee.com/)
 
 ## Feature
@@ -67,3 +65,4 @@ app/config/constants.php
 - PHP Code styling: [PhpStorm Laravel Code Style](https://github.com/michaeldyrynda/phpstorm-laravel-code-style) instead of [Laravel 4.2](http://laravel.com/docs/4.2/contributions)
 - PHP DocBlockr: [phpDocumentor](http://phpdoc.org/)
 - Javascript Code styling: [Airbnb](https://github.com/airbnb/javascript)
+- [WinLess](http://winless.org/online-less-compiler): Online LESS Compiler
