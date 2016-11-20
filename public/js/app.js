@@ -65,6 +65,34 @@ jQuery(document).ready(function ($) {
 	}
 
 	/*================================================================
+	 #Popup
+	 ================================================================*/
+
+	/**
+	 * Popup (basic)
+	 *
+	 * @param {String} title
+	 */
+	function popup(title) {
+		var timer = 2000;
+
+		swal({
+			title: title,
+			text: 'It will automatically close in 2 seconds.',
+			timer: timer
+		}).then(
+			function () {
+
+			},
+			function (dismiss) {
+				if (dismiss === 'timer') {
+
+				}
+			}
+		)
+	}
+
+	/*================================================================
 	 #Main application
 	 ================================================================*/
 
@@ -449,7 +477,10 @@ jQuery(document).ready(function ($) {
 		try {
 			$.get('/tweet/' + cleanCityName(cityName), function (data) {
 				if (data === 'Twitter - Bad Authentication data') {
-					if (debugMode) logText('Twitter - Bad Authentication data');
+					var errorMessage = 'Twitter - Bad Authentication data';
+					if (debugMode) logText(errorMessage);
+
+					popup(errorMessage);
 
 				} else {
 					if (debugMode) console.log(data);
@@ -475,15 +506,19 @@ jQuery(document).ready(function ($) {
 						if (debugMode) logText('Update Map with new tweets: success');
 
 					} else {
-						// if error then
-						if (debugMode) logText('Error', results.errorMsg);
+						var errorMessage = results.errorMsg;
+						if (debugMode) logText('Error', errorMessage);
+
+						popup(errorMessage);
 					}
 				}
 			});
 
 		} catch (exception) {
-			// if error then ?
-			if (debugMode) logText('Can\'t get tweet data');
+			var errorMessage = 'Can\'t get tweet data';
+			if (debugMode) logText(errorMessage);
+
+			popup(errorMessage);
 
 		} finally {
 			hidePageLoading();
