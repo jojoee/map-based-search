@@ -84,6 +84,10 @@ class TwitterHelper {
 			$tmp = [];
 
 			foreach ($tweets->statuses as $status) {
+				if (is_null($status->geo)) {
+					continue;
+				}
+
 				$tmp['id'] = $status->id;
 				$tmp['title'] = $tweets->search_metadata->query;
 				$tmp['content'] = $status->text.' When: '.$this->twitterTimeToReadableTime($status->created_at);
