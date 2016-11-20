@@ -12,12 +12,10 @@
 */
 
 Route::get('/', 'MapController@index');
-Route::get('get/{city}', 'MapController@getTweets');
-
-Route::get('search', function () {
+Route::get('tweet', function () {
 	return Redirect::to('/');
 });
-Route::get('search/get', function () {
+Route::get('tweet/history/', function () {
 	if ( ! Request::ajax()) {
 		return Redirect::to('/');
 	}
@@ -27,10 +25,12 @@ Route::get('search/get', function () {
 
 	return Response::make($history);
 });
-Route::get('search/update', function () {
+Route::get('tweet/{city}', 'MapController@getTweets');
+
+Route::post('tweet', function () {
 	return Redirect::to('/');
 });
-Route::get('search/update/{city}', function ($city) {
+Route::post('tweet/{city}', function ($city) {
 	if ( ! Request::ajax()) {
 		return Redirect::to('/');
 	}

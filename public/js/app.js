@@ -366,7 +366,7 @@ jQuery(document).ready(function ($) {
 		// get search history data
 		if (isHistoryUpdated) {
 			try {
-				$.get('/search/get', function (data) {
+				$.get('/tweet/history', function (data) {
 					var history = data;
 
 					if (history !== '') {
@@ -420,7 +420,7 @@ jQuery(document).ready(function ($) {
 	 */
 	function updateSearchHistory(cityName) {
 		try {
-			$.get('/search/update/' + cleanCityName(cityName), function (data) {
+			$.post('/tweet/' + cleanCityName(cityName), function (data) {
 				if (debugMode) {
 					if (data === 'OK') {
 						logText('Update search history: success');
@@ -447,7 +447,7 @@ jQuery(document).ready(function ($) {
 		showPageLoading();
 
 		try {
-			$.get('/get/' + cleanCityName(cityName), function (data) {
+			$.get('/tweet/' + cleanCityName(cityName), function (data) {
 				if (data === 'Twitter - Bad Authentication data') {
 					if (debugMode) logText('Twitter - Bad Authentication data');
 
