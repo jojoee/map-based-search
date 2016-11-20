@@ -330,9 +330,9 @@ jQuery(document).ready(function ($) {
 	 */
 	function addGoogleMapTextOverlay() {
 		if (debugMode) logText('Add google map text overlay', config.city);
+		$('<div id="tweet-text">Tweets about <span class="city-text">' + config.city + '</span></div>').appendTo('.container');
 		var tweetTextControl = document.getElementById(tweetTextId);
 
-		$('<div id="tweet-text">Tweets about <span class="city-text">' + config.city + '</span></div>').appendTo('.container');
 		map.controls[google.maps.ControlPosition.TOP_CENTER].push(tweetTextControl);
 	}
 
