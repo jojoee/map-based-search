@@ -1,13 +1,13 @@
 <?php
 
 return array(
-	'googleAnalyticsKey'        => GOOGLE_ANALYTICS_KEY,
-	'googleMapKey'              => GOOGLE_MAP_KEY,
+	'googleAnalyticsKey'        => 'UA-xxxxxxxx-x',
+	'googleMapKey'              => 'xxxxxxxx',
 
-	'twitterConsumerKey'        => TWITTER_CONSUMER_KEY,
-	'twitterConsumerSecret'     => TWITTER_CONSUMER_SECRET,
-	'twitterAccessToken'        => TWITTER_ACCESS_TOKEN,
-	'twitterAccessTokenSecret'  => TWITTER_ACCESS_TOKEN_SECRET,
+	'twitterConsumerKey'        => 'xxxxxxxx',
+	'twitterConsumerSecret'     => 'xxxxxxxx',
+	'twitterAccessToken'        => 'xxxxxxxx',
+	'twitterAccessTokenSecret'  => 'xxxxxxxx',
 
 	'historyCookieName'         => 'history',
 	'maximumSearchHistory'      => 20

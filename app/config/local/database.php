@@ -22,10 +22,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => MBS_DB_LOCAL_HOST,
-			'database'  => MBS_DB_LOCAL_NAME,
-			'username'  => MBS_DB_LOCAL_USER,
-			'password'  => MBS_DB_LOCAL_PASS,
+			'host'      => 'local_host',
+			'database'  => 'local_name',
+			'username'  => 'local_user',
+			'password'  => 'local_pass',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

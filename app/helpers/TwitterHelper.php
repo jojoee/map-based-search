@@ -48,7 +48,7 @@ class TwitterHelper {
 	 */
 	public function verify()
 	{
-		$results = $this->twitter->get("account/verify_credentials");
+		$results = $this->twitter->get('account/verify_credentials');
 
 		if (isset($results->errors)) {
 			return false;
@@ -66,7 +66,7 @@ class TwitterHelper {
 	 */
 	public function rawSearchTweets($args)
 	{
-		return $this->twitter->get("search/tweets", $args);
+		return $this->twitter->get('search/tweets', $args);
 	}
 
 	/**
@@ -80,6 +80,7 @@ class TwitterHelper {
 	{
 		$tweets = $this->rawSearchTweets($args);
 		$results = [];
+
 		if ( ! empty($tweets->statuses)) {
 			$tmp = [];
 

@@ -1,31 +1,51 @@
+var debugMode;
+var config;
+var map;
+var mapOptions;
+var markers = [];
+var mapStyles = {
+	Greyscale: [{"featureType": "all", "elementType": "all", "stylers": [{"saturation": -100}, {"gamma": 0.5}]}],
+	lightDream: [{
+		"featureType": "landscape",
+		"stylers": [{"hue": "#FFBB00"}, {"saturation": 43.400000000000006}, {"lightness": 37.599999999999994}, {"gamma": 1}]
+	}, {
+		"featureType": "road.highway",
+		"stylers": [{"hue": "#FFC200"}, {"saturation": -61.8}, {"lightness": 45.599999999999994}, {"gamma": 1}]
+	}, {
+		"featureType": "road.arterial",
+		"stylers": [{"hue": "#FF0300"}, {"saturation": -100}, {"lightness": 51.19999999999999}, {"gamma": 1}]
+	}, {
+		"featureType": "road.local",
+		"stylers": [{"hue": "#FF0300"}, {"saturation": -100}, {"lightness": 52}, {"gamma": 1}]
+	}, {
+		"featureType": "water",
+		"stylers": [{"hue": "#0078FF"}, {"saturation": -13.200000000000003}, {"lightness": 2.4000000000000057}, {"gamma": 1}]
+	}, {
+		"featureType": "poi",
+		"stylers": [{"hue": "#00FF6A"}, {"saturation": -1.0989010989011234}, {"lightness": 11.200000000000017}, {"gamma": 1}]
+	}]
+};
+
 jQuery(document).ready(function ($) {
 
 	var $zoomLevelInput = $('#zoom-level');
 	var $latInput = $('#lat');
 	var $lngInput = $('#lng');
-
 	var $cityForm = $('#city-form');
 	var $cityInput = $('#city');
-
 	var $removeMarkersBtn = $('.remove-all-markers');
 	var $addTextOverlayBtn = $('.add-text-overlay');
 	var $updateTextOverlayBtn = $('.update-text-overlay');
 	var $removeTextOverlayBtn = $('.remove-text-overlay');
-
 	var tweetTextId = 'tweet-text';
 	var $tweetText = $('#' + tweetTextId);
-	var $cityText = $('.city-text');
-
 	var $pageLoading = $('.page-loading');
-
 	var $logMsg = $('.log-msg');
-
 	var $historyBtn = $('.history');
 	var historyItemSelector = '.history-item';
 	var $historyItem = $(historyItemSelector);
 	var $historyBack = $('.history-back');
 	var $historyPanel = $('.history-panel');
-
 	var isHistoryUpdated = true;
 
 	/*================================================================
@@ -42,18 +62,6 @@ jQuery(document).ready(function ($) {
 	 */
 	function isZoomLevel(num) {
 		return (isInteger(num) && num >= 0 && num <= 22);
-	}
-
-	/**
-	 * Check the number's in range of latitude / longitude (-180 - 180)
-	 *
-	 * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
-	 *
-	 * @param  {Float} num
-	 * @return {Boolean}
-	 */
-	function isLatLng(num) {
-		return (isFloat(num) && num >= -180 && num <= 180);
 	}
 
 	/*================================================================
@@ -90,6 +98,7 @@ jQuery(document).ready(function ($) {
 
 	/**
 	 * Set zoom level input by procied value
+	 *
 	 * @param {Number} num
 	 */
 	function setZoomLevelInput(num) {
@@ -98,6 +107,7 @@ jQuery(document).ready(function ($) {
 
 	/**
 	 * Set latitude input by provided value
+	 *
 	 * @param {Float} num
 	 */
 	function setLatInput(num) {
@@ -106,6 +116,7 @@ jQuery(document).ready(function ($) {
 
 	/**
 	 * Set longitude input by provided value
+	 *
 	 * @param {Float} num
 	 */
 	function setLngInput(num) {
@@ -114,6 +125,7 @@ jQuery(document).ready(function ($) {
 
 	/**
 	 * Set city name input by provided value
+	 *
 	 * @param {String} str
 	 */
 	function setCityInput(str) {
@@ -183,7 +195,9 @@ jQuery(document).ready(function ($) {
 	 * @param {Number} num
 	 */
 	function setGoogleMapZoomLevel(num) {
-		if (isZoomLevel(num)) map.setZoom(num);
+		if (isZoomLevel(num)) {
+			map.setZoom(num);
+		}
 	}
 
 	/**
@@ -195,6 +209,7 @@ jQuery(document).ready(function ($) {
 	function setGoogleMapLatLng(lat, lng) {
 		if (isLatLng(lat) && isLatLng(lng)) {
 			var latlng = new google.maps.LatLng(lat, lng);
+
 			map.setCenter(latlng);
 		}
 	}
@@ -287,9 +302,9 @@ jQuery(document).ready(function ($) {
 	 */
 	function addGoogleMapTextOverlay() {
 		if (debugMode) logText('Add google map text overlay', config.city);
+		var tweetTextControl = document.getElementById(tweetTextId);
 
 		$('<div id="tweet-text">Tweets about <span class="city-text">' + config.city + '</span></div>').appendTo('.container');
-		var tweetTextControl = document.getElementById(tweetTextId);
 		map.controls[google.maps.ControlPosition.TOP_CENTER].push(tweetTextControl);
 	}
 
@@ -327,8 +342,8 @@ jQuery(document).ready(function ($) {
 	 * Update config data by input field
 	 */
 	function updateAllConfigData() {
-		updateZoomLevel()
-		updateLat()
+		updateZoomLevel();
+		updateLat();
 		updateLng();
 		updateCity();
 	}
@@ -346,14 +361,12 @@ jQuery(document).ready(function ($) {
 	 * Get search history and open the history panel
 	 */
 	function openHistoryPanel() {
-
 		showPageLoading();
 
 		// get search history data
 		if (isHistoryUpdated) {
 			try {
 				$.get('/search/get', function (data) {
-
 					var history = data;
 
 					if (history !== '') {
@@ -366,13 +379,13 @@ jQuery(document).ready(function ($) {
 						});
 
 						isHistoryUpdated = false;
-
 						$historyItem = $('.history-item');
 					}
 
 					if (debugMode) {
 						if (history === '') {
 							logText('No search history');
+
 						} else {
 							logText('Search history', history);
 						}
@@ -380,14 +393,13 @@ jQuery(document).ready(function ($) {
 				});
 
 			} catch (exception) {
-
 				// if error then ?
 				if (debugMode) logText('Can\'t get search history');
 
 			} finally {
-
 				// do nothing
 			}
+
 		} else {
 			if (debugMode) logText('Not get new search history');
 		}
@@ -412,6 +424,7 @@ jQuery(document).ready(function ($) {
 				if (debugMode) {
 					if (data === 'OK') {
 						logText('Update search history: success');
+
 					} else {
 						logText('Can\' update search history');
 					}
@@ -421,7 +434,6 @@ jQuery(document).ready(function ($) {
 			});
 
 		} catch (exception) {
-
 			if (debugMode) console.log(exception);
 		}
 	}
@@ -436,16 +448,14 @@ jQuery(document).ready(function ($) {
 
 		try {
 			$.get('/get/' + cleanCityName(cityName), function (data) {
-
 				if (data === 'Twitter - Bad Authentication data') {
 					if (debugMode) logText('Twitter - Bad Authentication data');
+
 				} else {
 					if (debugMode) console.log(data);
-
 					var results = $.parseJSON(data);
 
 					if (results.status.toUpperCase() === 'OK') {
-
 						var locations = $.parseJSON(results.data);
 
 						setLatInput(results.lat);
@@ -462,11 +472,9 @@ jQuery(document).ready(function ($) {
 
 						// update latest search
 						config.latestCity = cityName;
-
 						if (debugMode) logText('Update Map with new tweets: success');
 
 					} else {
-
 						// if error then
 						if (debugMode) logText('Error', results.errorMsg);
 					}
@@ -478,7 +486,6 @@ jQuery(document).ready(function ($) {
 			if (debugMode) logText('Can\'t get tweet data');
 
 		} finally {
-
 			hidePageLoading();
 		}
 	}
@@ -487,7 +494,7 @@ jQuery(document).ready(function ($) {
 	 * Perform search tweet
 	 */
 	function performSearchTweets() {
-		cityName = $cityInput.val();
+		var cityName = $cityInput.val();
 		if (config.latestCity.toUpperCase() !== cityName.toUpperCase()) {
 			updateSearchHistory(cityName);
 			updateGoogleMapWithTweets(cityName);
@@ -511,7 +518,7 @@ jQuery(document).ready(function ($) {
 			lng: 151.25,
 			zoomLevel: 11,
 			styles: mapStyles.lightDream,
-			city: 'Coogee Bay', // this's not a city name
+			city: 'Coogee Bay',
 			latestCity: ''
 		};
 
@@ -596,7 +603,6 @@ jQuery(document).ready(function ($) {
 	 */
 	function logText(title, data) {
 		var msg = title;
-
 		if (typeof data !== 'undefined') msg += ': ' + data;
 
 		console.log(msg);
@@ -768,9 +774,6 @@ jQuery(document).ready(function ($) {
 		// Init
 		initConfig();
 		initGoogleMap();
-
-		// Testing purpose
-		// dummyMarker();
 
 		// Update
 		updateAllInputData();

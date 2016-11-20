@@ -5,10 +5,13 @@
  */
 class MapController extends \BaseController {
 
+	/** @var bool|string */
 	private $currentDateTime;
 
+	/** @var bool|string */
 	private $hourAgoDateTime;
 
+	/** @var string */
 	private $radius;
 
 	/**
@@ -47,10 +50,8 @@ class MapController extends \BaseController {
 			return Redirect::to('/');
 		}
 
-		$data = [];
 		$city = strtoupper($city);
 		$record = Tweet::where('city', $city)->where('updated_at', '>', $this->hourAgoDateTime)->first();
-
 		$errorMessage = '';
 
 		if ($record) {
@@ -58,11 +59,14 @@ class MapController extends \BaseController {
 			$tweetsEncode = $record->data;
 			$lat = $record->lat;
 			$lng = $record->lng;
+
 		} else {
 			$record = Tweet::where('city', $city)->first();
+
 			if ($record) {
 				$lat = $record->lat;
 				$lng = $record->lng;
+
 			} else {
 				$geo = $this->getLatLng($city);
 
@@ -82,6 +86,7 @@ class MapController extends \BaseController {
 				$status = 'NOOK';
 				$tweetsEncode = json_encode([]);
 				$errorMessage = 'No tweets found';
+
 			} else {
 				$status = 'OK';
 				$tweetsEncode = json_encode($tweets);
@@ -90,6 +95,7 @@ class MapController extends \BaseController {
 				if ($record) {
 					// Update the record
 					Tweet::where('city', $city)->update(['data' => $tweetsEncode]);
+
 				} else {
 					// Add new record
 					$tweetData = [
@@ -131,14 +137,15 @@ class MapController extends \BaseController {
 
 		try {
 			$jsonData = json_decode(file_get_contents($targetUrl));
-
 			$results = [];
+
 			if ($jsonData->status == 'OK') {
 				$results = [
 					'lat' => $jsonData->results[0]->geometry->location->lat,
 					'lng' => $jsonData->results[0]->geometry->location->lng
 				];
 			}
+
 		} catch (Exception $e) {
 			// if error then ?
 			// echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -168,14 +175,15 @@ class MapController extends \BaseController {
 			die('Twitter - Bad Authentication data');
 		}
 
-		$twiiterArgs = [
+		$twitterArgs = [
 			'q'           => $city,
-			'count'       => 24, // default 15, max 100
-			'geocode'     => $lat.','.$lng.','.$this->radius, //13.7563,100.5018,50km',
+			'count'       => 24,
+			'geocode'     => $lat.','.$lng.','.$this->radius,
 			'result_type' => 'mixed',
 		];
 
-		$tweets = $twitter->searchTweets($twiiterArgs);
+		$tweets = $twitter->searchTweets($twitterArgs);
+
 		// if error return empty array
 		if (empty($tweets)) {
 			return [];

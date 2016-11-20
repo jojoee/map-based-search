@@ -27,7 +27,6 @@ Route::get('search/get', function () {
 
 	return Response::make($history);
 });
-
 Route::get('search/update', function () {
 	return Redirect::to('/');
 });
@@ -38,7 +37,6 @@ Route::get('search/update/{city}', function ($city) {
 
 	$cookieName = Config::get('constants.historyCookieName');
 	$history = updateSearchHistory(Cookie::get($cookieName), $city);
-
 	$cookie = Cookie::forever($cookieName, $history);
 
 	return Response::make('OK')->withCookie($cookie);

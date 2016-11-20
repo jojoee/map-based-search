@@ -7,7 +7,7 @@
  * @return {Boolean}
  */
 function isInteger(num) {
-	return num == parseInt(num, 10);
+	return (num == parseInt(num, 10));
 }
 
 /**
@@ -17,7 +17,7 @@ function isInteger(num) {
  * @return {Boolean}
  */
 function isFloat(num) {
-	return num == parseFloat(num, 10);
+	return (num == parseFloat(num, 10));
 }
 
 /**
@@ -40,6 +40,18 @@ function stringToInt(str) {
  */
 function stringToFloat(str) {
 	return parseFloat(str);
+}
+
+/**
+ * Check the number's in range of latitude / longitude (-180 - 180)
+ *
+ * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
+ *
+ * @param  {Float} num
+ * @return {Boolean}
+ */
+function isLatLng(num) {
+	return (isFloat(num) && num >= -180 && num <= 180);
 }
 
 /**
@@ -95,7 +107,9 @@ function replacePlusWithSpace(str) {
  */
 function cleanCityName(str) {
 	var results;
+
 	results = replaceSlashWithPlus(str);
-	results = replaceSpaceWithPlus(str);
+	results = replaceSpaceWithPlus(results);
+
 	return results;
 }

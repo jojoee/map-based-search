@@ -27,36 +27,15 @@ $app = new Illuminate\Foundation\Application;
 define('MBS_SITE_ENV', getenv('MBS_SITE_ENV'));
 define('MBS_SERVER_NAME', getenv('MBS_SERVER_NAME'));
 
-define('MBS_DB_LOCAL_HOST', getenv('MBS_DB_LOCAL_HOST'));
-define('MBS_DB_LOCAL_NAME', getenv('MBS_DB_LOCAL_NAME'));
-define('MBS_DB_LOCAL_USER', getenv('MBS_DB_LOCAL_USER'));
-define('MBS_DB_LOCAL_PASS', getenv('MBS_DB_LOCAL_PASS'));
+if (MBS_SITE_ENV === 'prod') {
+	$env = $app->detectEnvironment([
+		'production' => [MBS_SERVER_NAME],
+	]);
 
-define('MBS_DB_PROD_HOST', getenv('MBS_DB_PROD_HOST'));
-define('MBS_DB_PROD_NAME', getenv('MBS_DB_PROD_NAME'));
-define('MBS_DB_PROD_USER', getenv('MBS_DB_PROD_USER'));
-define('MBS_DB_PROD_PASS', getenv('MBS_DB_PROD_PASS'));
-
-define('GOOGLE_ANALYTICS_KEY', getenv('GOOGLE_ANALYTICS_KEY'));
-define('GOOGLE_MAP_KEY',       getenv('GOOGLE_MAP_KEY'));
-
-define('TWITTER_CONSUMER_KEY',        getenv('TWITTER_CONSUMER_KEY'));
-define('TWITTER_CONSUMER_SECRET',     getenv('TWITTER_CONSUMER_SECRET'));
-define('TWITTER_ACCESS_TOKEN',        getenv('TWITTER_ACCESS_TOKEN'));
-define('TWITTER_ACCESS_TOKEN_SECRET', getenv('TWITTER_ACCESS_TOKEN_SECRET'));
-
-// die(gethostname());
-if (MBS_SITE_ENV === 'local')
-{
-	$env = $app->detectEnvironment(array(
-		'local' => array(gethostname()),
-	));
-}
-else
-{
-	$env = $app->detectEnvironment(array(
-		'production' => array(MBS_SERVER_NAME),
-	));
+} else {
+	$env = $app->detectEnvironment([
+		'local' => [gethostname()],
+	]);
 }
 
 /*
@@ -83,8 +62,7 @@ $app->bindInstallPaths(require __DIR__.'/paths.php');
 |
 */
 
-$framework = $app['path.base'].
-                 '/vendor/laravel/framework/src';
+$framework = $app['path.base'].'/vendor/laravel/framework/src';
 
 require $framework.'/Illuminate/Foundation/start.php';
 

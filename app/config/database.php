@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => MBS_DB_PROD_HOST,
-			'database'  => MBS_DB_PROD_NAME,
-			'username'  => MBS_DB_PROD_USER,
-			'password'  => MBS_DB_PROD_PASS,
+			'host'      => 'prod_host',
+			'database'  => 'prod_name',
+			'username'  => 'prod_user',
+			'password'  => 'prod_pass',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
