@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
 	var $zoomLevelInput = $('#zoom-level');
 	var $latInput = $('#lat');
@@ -11,12 +11,12 @@ jQuery(document).ready(function($) {
 	var $addTextOverlayBtn = $('.add-text-overlay');
 	var $updateTextOverlayBtn = $('.update-text-overlay');
 	var $removeTextOverlayBtn = $('.remove-text-overlay');
-	
+
 	var tweetTextId = 'tweet-text';
 	var $tweetText = $('#' + tweetTextId);
 	var $cityText = $('.city-text');
 
-	var $pageLoading	= $('.page-loading');
+	var $pageLoading = $('.page-loading');
 
 	var $logMsg = $('.log-msg');
 
@@ -27,16 +27,16 @@ jQuery(document).ready(function($) {
 	var $historyPanel = $('.history-panel');
 
 	var isHistoryUpdated = true;
-	
+
 	/*================================================================
-	  #Google map utilities
-	  ================================================================*/
+	 #Google map utilities
+	 ================================================================*/
 
 	/**
 	 * Check the number's in range of google map zoom level (0 - 22)
-	 * 
+	 *
 	 * @see https://developers.google.com/maps/documentation/javascript/maxzoom
-	 * 
+	 *
 	 * @param  {Integer} num
 	 * @return {Boolean}
 	 */
@@ -46,10 +46,10 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Check the number's in range of latitude / longitude (-180 - 180)
-	 * 
+	 *
 	 * @see https://answers.yahoo.com/question/index?qid=20071121075230AATuvo3
-	 * 
-	 * @param  {Float}	 num
+	 *
+	 * @param  {Float} num
 	 * @return {Boolean}
 	 */
 	function isLatLng(num) {
@@ -57,8 +57,8 @@ jQuery(document).ready(function($) {
 	}
 
 	/*================================================================
-	  #Main application
-	  ================================================================*/
+	 #Main application
+	 ================================================================*/
 
 	/**
 	 * Update zoom level of config
@@ -109,7 +109,7 @@ jQuery(document).ready(function($) {
 	 * @param {Float} num
 	 */
 	function setLngInput(num) {
-		$lngInput.val(num);	
+		$lngInput.val(num);
 	}
 
 	/**
@@ -168,18 +168,18 @@ jQuery(document).ready(function($) {
 	function hidePageLoadingWithDelay() {
 		var delayTime = 600;
 
-		setTimeout(function(){
+		setTimeout(function () {
 			$pageLoading
-				.delay( delayTime )
-				.fadeOut( 'slow' );
-		}, delayTime );
+				.delay(delayTime)
+				.fadeOut('slow');
+		}, delayTime);
 	}
 
 	/**
 	 * Set google map zoom level
-	 * 
+	 *
 	 * @see https://developers.google.com/maps/documentation/javascript/reference
-	 * 
+	 *
 	 * @param {Number} num
 	 */
 	function setGoogleMapZoomLevel(num) {
@@ -188,7 +188,7 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Set center of google map by latitude and longitude
-	 * 
+	 *
 	 * @param {Float} lat
 	 * @param {Float} lng
 	 */
@@ -201,7 +201,7 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Set google map style
-	 * 
+	 *
 	 * @param {JSON} style
 	 */
 	function setGoogleMapStyle(style) {
@@ -223,7 +223,7 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Add google map marker
-	 * 
+	 *
 	 * @param {Float} lat
 	 * @param {Float} lng
 	 */
@@ -238,11 +238,11 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Add google map marker with info window
-	 * 
+	 *
 	 * @see http://stackoverflow.com/questions/3059044/google-maps-js-api-v3-simple-multiple-marker-example
 	 * @see http://stackoverflow.com/questions/11106671/google-maps-api-multiple-markers-with-infowindows
 	 * @see http://stackoverflow.com/questions/3158598/google-maps-api-v3-adding-an-infowindow-to-each-marker
-	 * 
+	 *
 	 * @param {Array} locations
 	 */
 	function addGoogleMapMarkerWithInfo(locations) {
@@ -269,8 +269,8 @@ jQuery(document).ready(function($) {
 				draggable: false,
 			});
 
-			google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				return function() {
+			google.maps.event.addListener(marker, 'click', (function (marker, i) {
+				return function () {
 					infowindow.setContent(locations[i].content);
 					infowindow.open(map, marker);
 				}
@@ -282,7 +282,7 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Add new google map text overlay
-	 * 
+	 *
 	 * @see http://stackoverflow.com/questions/5099862/how-to-create-a-text-overlay-in-google-maps-api-v3-that-does-not-pan
 	 */
 	function addGoogleMapTextOverlay() {
@@ -308,7 +308,7 @@ jQuery(document).ready(function($) {
 	 */
 	function removeGoogleMapTextOverlay() {
 		if (debugMode) logText('Remove google map text overlay');
-		
+
 		$tweetText = $('#' + tweetTextId);
 		$tweetText.remove();
 	}
@@ -338,7 +338,7 @@ jQuery(document).ready(function($) {
 	 */
 	function updateGoogleMap() {
 		setGoogleMapZoomLevel(config.zoomLevel);
-		setGoogleMapLatLng(config.lat, config.lng);	
+		setGoogleMapLatLng(config.lat, config.lng);
 		updateGoogleMapTextOverlay()
 	}
 
@@ -352,7 +352,7 @@ jQuery(document).ready(function($) {
 		// get search history data
 		if (isHistoryUpdated) {
 			try {
-				$.get('/search/get', function(data) {
+				$.get('/search/get', function (data) {
 
 					var history = data;
 
@@ -361,7 +361,7 @@ jQuery(document).ready(function($) {
 						history = splitStringByComma(history).reverse();
 						$historyItem.remove();
 
-						$.each(history, function(index, value) {
+						$.each(history, function (index, value) {
 							$('<li class="history-item">' + replacePlusWithSpace(value) + '</li>').appendTo('.history-list');
 						});
 
@@ -403,20 +403,18 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Update search history with city name
-	 * 
+	 *
 	 * @param {String} cityName
 	 */
-	function updateSearchHistory(cityName)
-	{
+	function updateSearchHistory(cityName) {
 		try {
-			$.get('/search/update/' + cleanCityName(cityName), function(data) {
-				if (debugMode)
-				{
+			$.get('/search/update/' + cleanCityName(cityName), function (data) {
+				if (debugMode) {
 					if (data === 'OK') {
 						logText('Update search history: success');
 					} else {
 						logText('Can\' update search history');
-					}	
+					}
 				}
 
 				isHistoryUpdated = true;
@@ -430,20 +428,20 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Get new tweets from city name and update google map with new tweets
-	 * 
+	 *
 	 * @param {String} cityName
 	 */
 	function updateGoogleMapWithTweets(cityName) {
 		showPageLoading();
 
 		try {
-			$.get('/get/' + cleanCityName(cityName), function(data) {
+			$.get('/get/' + cleanCityName(cityName), function (data) {
 
 				if (data === 'Twitter - Bad Authentication data') {
 					if (debugMode) logText('Twitter - Bad Authentication data');
 				} else {
 					if (debugMode) console.log(data);
-					
+
 					var results = $.parseJSON(data);
 
 					if (results.status.toUpperCase() === 'OK') {
@@ -480,7 +478,7 @@ jQuery(document).ready(function($) {
 			if (debugMode) logText('Can\'t get tweet data');
 
 		} finally {
-			
+
 			hidePageLoading();
 		}
 	}
@@ -501,8 +499,8 @@ jQuery(document).ready(function($) {
 	}
 
 	/*================================================================
-	  #Test / Dummy
-	  ================================================================*/
+	 #Test / Dummy
+	 ================================================================*/
 
 	/**
 	 * Dummy marker and update the map
@@ -559,8 +557,8 @@ jQuery(document).ready(function($) {
 	}
 
 	/*================================================================
-	  #Debug / Log
-	  ================================================================*/
+	 #Debug / Log
+	 ================================================================*/
 
 	/**
 	 * Log zoom level of config into console
@@ -592,7 +590,7 @@ jQuery(document).ready(function($) {
 
 	/**
 	 * Log text into console
-	 * 
+	 *
 	 * @param {String} title
 	 * @param {String} data
 	 */
@@ -606,13 +604,13 @@ jQuery(document).ready(function($) {
 	}
 
 	/*================================================================
-	  #Event listener
-	  ================================================================*/
+	 #Event listener
+	 ================================================================*/
 
 	/**
 	 * When zoom level input is changed then update zoom level of google map
 	 */
-	$zoomLevelInput.on('input',function(e){
+	$zoomLevelInput.on('input', function (e) {
 		updateZoomLevel();
 		if (debugMode) logZoomLevel();
 		setGoogleMapZoomLevel(config.zoomLevel);
@@ -621,7 +619,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * When latitude input is changed then update latitude of google map
 	 */
-	$latInput.on('input',function(e){
+	$latInput.on('input', function (e) {
 		updateLat();
 		if (debugMode) logLat();
 		setGoogleMapLatLng(config.lat, config.lng);
@@ -630,7 +628,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * When longitude input is changed then update longitude of google map
 	 */
-	$lngInput.on('input',function(e){
+	$lngInput.on('input', function (e) {
 		updateLng();
 		if (debugMode) logLng();
 		setGoogleMapLatLng(config.lat, config.lng);
@@ -639,7 +637,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * When city input is changed then update center of google map
 	 */
-	$cityInput.on('input',function(e){
+	$cityInput.on('input', function (e) {
 		updateCity();
 		if (debugMode) logCity();
 		updateGoogleMapTextOverlay(config.city);
@@ -648,42 +646,42 @@ jQuery(document).ready(function($) {
 	/**
 	 * When click 'Remove All Markers' then remove all markers on the google map
 	 */
-	$removeMarkersBtn.on('click', function(e) {
+	$removeMarkersBtn.on('click', function (e) {
 		removeAllGoogleMapMarkers(markers);
 	});
 
 	/**
 	 * When click 'Add text overlay' then update text overlay on the google map
 	 */
-	$addTextOverlayBtn.on('click', function(e) {
+	$addTextOverlayBtn.on('click', function (e) {
 		updateGoogleMapTextOverlay();
 	});
 
 	/**
 	 * When click 'Update text overlay' then update text overlay on the google map
 	 */
-	$updateTextOverlayBtn.on('click', function(e) {
+	$updateTextOverlayBtn.on('click', function (e) {
 		updateGoogleMapTextOverlay();
 	});
 
 	/**
 	 * When click 'Remove text overlay' then remove text overlay on the google map
 	 */
-	$removeTextOverlayBtn.on('click', function(e) {
+	$removeTextOverlayBtn.on('click', function (e) {
 		removeGoogleMapTextOverlay();
 	});
 
 	/**
 	 * Open history panel when click 'History' button
 	 */
-	$historyBtn.on('click', function(e) {
+	$historyBtn.on('click', function (e) {
 		openHistoryPanel();
 	});
 
 	/**
 	 * When click 'Back to the tweets' then hide the history panel
 	 */
-	$historyBack.on('click', function(e) {
+	$historyBack.on('click', function (e) {
 		$historyPanel.fadeOut('slow');
 	});
 
@@ -692,7 +690,7 @@ jQuery(document).ready(function($) {
 	 *
 	 * @see http://stackoverflow.com/questions/1359018/in-jquery-how-to-attach-events-to-dynamic-html-elements
 	 */
-	$('body').on('click', historyItemSelector, function() {
+	$('body').on('click', historyItemSelector, function () {
 		$historyPanel.fadeOut('slow');
 
 		setCityInput($(this).text());
@@ -704,7 +702,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * When submit the form then get tweets and update the map
 	 */
-	$cityForm.on('submit', function(e) {
+	$cityForm.on('submit', function (e) {
 		e.preventDefault();
 		if (debugMode) logText('Form submit');
 
@@ -714,8 +712,8 @@ jQuery(document).ready(function($) {
 	});
 
 	/*================================================================
-	  #Init
-	  ================================================================*/
+	 #Init
+	 ================================================================*/
 
 	/**
 	 * Initialize config data and map options
@@ -723,6 +721,7 @@ jQuery(document).ready(function($) {
 	function initConfig() {
 		debugMode = false;
 
+		// default config
 		config = {
 			lat: 13.7563,
 			lng: 100.5018,
@@ -743,7 +742,7 @@ jQuery(document).ready(function($) {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 	}
-	
+
 	/**
 	 * Initialize google map
 	 */
@@ -754,7 +753,7 @@ jQuery(document).ready(function($) {
 		);
 
 		// Google map event listener
-		google.maps.event.addListener(map, 'zoom_changed', function() {
+		google.maps.event.addListener(map, 'zoom_changed', function () {
 			var zoomLevel = map.getZoom();
 			setZoomLevelInput(zoomLevel);
 
@@ -772,7 +771,7 @@ jQuery(document).ready(function($) {
 
 		// Testing purpose
 		// dummyMarker();
-		
+
 		// Update
 		updateAllInputData();
 		updateGoogleMap();

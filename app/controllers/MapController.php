@@ -6,7 +6,9 @@
 class MapController extends \BaseController {
 
 	private $currentDateTime;
+
 	private $hourAgoDateTime;
+
 	private $radius;
 
 	/**
@@ -27,8 +29,8 @@ class MapController extends \BaseController {
 	public function index()
 	{
 		$data = [
-			'googleAnalyticsKey'  => Config::get('constants.googleAnalyticsKey'),
-			'googleMapApiKey'     => Config::get('constants.googleMapKey')
+			'googleAnalyticsKey' => Config::get('constants.googleAnalyticsKey'),
+			'googleMapApiKey'    => Config::get('constants.googleMapKey')
 		];
 
 		return View::make('map.show', $data);
@@ -36,86 +38,78 @@ class MapController extends \BaseController {
 
 	/**
 	 * Get tweet data by city name via ajax only
-	 * 
+	 *
 	 * @param string $city city name
 	 */
 	public function getTweets($city)
 	{
-		if (! Request::ajax()) return Redirect::to('/');
+		if ( ! Request::ajax()) {
+			return Redirect::to('/');
+		}
 
-		$data = array();
+		$data = [];
 		$city = strtoupper($city);
 		$record = Tweet::where('city', $city)->where('updated_at', '>', $this->hourAgoDateTime)->first();
 
 		$errorMessage = '';
 
-		if ($record)
-		{
+		if ($record) {
 			$status = 'OK';
 			$tweetsEncode = $record->data;
 			$lat = $record->lat;
 			$lng = $record->lng;
-		}
-		else
-		{
+		} else {
 			$record = Tweet::where('city', $city)->first();
-			if ($record)
-			{
+			if ($record) {
 				$lat = $record->lat;
 				$lng = $record->lng;
-			}
-			else
-			{
+			} else {
 				$geo = $this->getLatLng($city);
-				
+
 				// if error then ?
-				if (empty($geo)) die();
-				
+				if (empty($geo)) {
+					die();
+				}
+
 				$lat = $geo['lat'];
-				$lng = $geo['lng'];				
+				$lng = $geo['lng'];
 			}
 
 			$tweets = $this->getTweetData($city, $lat, $lng);
 
 			// if error then status = 'NOOK'
-			if (empty($tweets))
-			{
+			if (empty($tweets)) {
 				$status = 'NOOK';
-				$tweetsEncode = json_encode(array());
+				$tweetsEncode = json_encode([]);
 				$errorMessage = 'No tweets found';
-			}
-			else
-			{
+			} else {
 				$status = 'OK';
 				$tweetsEncode = json_encode($tweets);
 
 				$record = Tweet::where('city', $city)->first();
-				if ($record)
-				{
+				if ($record) {
 					// Update the record
-					Tweet::where('city', $city)->update(array('data' => $tweetsEncode));
-				}
-				else
-				{
+					Tweet::where('city', $city)->update(['data' => $tweetsEncode]);
+				} else {
 					// Add new record
-					$tweetData = array(
-						'city'  => $city,
-						'data'  => $tweetsEncode,
-						'lat'   => $lat,
-						'lng'   => $lng
-					);
+					$tweetData = [
+						'city' => $city,
+						'data' => $tweetsEncode,
+						'lat'  => $lat,
+						'lng'  => $lng
+					];
 					Tweet::create($tweetData);
 				}
 			}
 		}
 
-		$data = array(
-			'status'    => $status,
-			'data'      => $tweetsEncode,
-			'lat'       => $lat,
-			'lng'       => $lng,
-			'errorMsg'  => $errorMessage
-		);
+		$data = [
+			'status'   => $status,
+			'data'     => $tweetsEncode,
+			'lat'      => $lat,
+			'lng'      => $lng,
+			'errorMsg' => $errorMessage
+		];
 
 		echo json_encode($data);
 	}
@@ -126,8 +120,9 @@ class MapController extends \BaseController {
 
 	/**
 	 * Get latitude longitude by city name via Google Geocoding API
-	 * 
+	 *
 	 * @param  string $city city name
+	 *
 	 * @return array
 	 */
 	private function getLatLng($city)
@@ -137,13 +132,12 @@ class MapController extends \BaseController {
 		try {
 			$jsonData = json_decode(file_get_contents($targetUrl));
 
-			$results = array();
-			if ($jsonData->status == 'OK')
-			{
-				$results = array(
+			$results = [];
+			if ($jsonData->status == 'OK') {
+				$results = [
 					'lat' => $jsonData->results[0]->geometry->location->lat,
 					'lng' => $jsonData->results[0]->geometry->location->lng
-				);
+				];
 			}
 		} catch (Exception $e) {
 			// if error then ?
@@ -155,10 +149,11 @@ class MapController extends \BaseController {
 
 	/**
 	 * Get tweet data from Twitter Search API via twitteroauth library
-	 * 
+	 *
 	 * @param  string $city city name
 	 * @param  float  $lat  latitude
 	 * @param  float  $lng  longitude
+	 *
 	 * @return array
 	 */
 	private function getTweetData($city, $lat, $lng)
@@ -169,18 +164,22 @@ class MapController extends \BaseController {
 		$accessTokenSecret = Config::get('constants.twitterAccessTokenSecret');
 
 		$twitter = new TwitterHelper($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
-		if (! $twitter->verify()) die('Twitter - Bad Authentication data');
+		if ( ! $twitter->verify()) {
+			die('Twitter - Bad Authentication data');
+		}
 
-		$twiiterArgs = array(
+		$twiiterArgs = [
 			'q'           => $city,
 			'count'       => 24, // default 15, max 100
 			'geocode'     => $lat.','.$lng.','.$this->radius, //13.7563,100.5018,50km',
 			'result_type' => 'mixed',
-		);
+		];
 
 		$tweets = $twitter->searchTweets($twiiterArgs);
 		// if error return empty array
-		if (empty($tweets)) return array();
+		if (empty($tweets)) {
+			return [];
+		}
 
 		return $tweets;
 	}

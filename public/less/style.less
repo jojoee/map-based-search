@@ -16,16 +16,16 @@
 
 .transition(@transition: all .3s ease) {
 	-webkit-transition: @transition;
-		 -moz-transition: @transition;
-			-ms-transition: @transition;
-			 -o-transition: @transition;
-					transition: @transition;
+	-moz-transition: @transition;
+	-ms-transition: @transition;
+	-o-transition: @transition;
+	transition: @transition;
 }
 
 .box-sizing(@sizing: border-box) {
 	-webkit-box-sizing: @sizing;
-		 -moz-box-sizing: @sizing;
-					box-sizing: @sizing;
+	-moz-box-sizing: @sizing;
+	box-sizing: @sizing;
 }
 
 /*================================================================
@@ -90,13 +90,13 @@ input {
 		font-size: 18px;
 		border: none;
 		padding-left: @space-sm;
-	 	.box-sizing();
-	 	color: @accent-color;
-	 	text-transform: uppercase;
+		.box-sizing();
+		color: @accent-color;
+		text-transform: uppercase;
 	}
 }
 
-.submit-box {	
+.submit-box {
 	width: 20%;
 	height: 100%;
 	float: left;
@@ -191,7 +191,7 @@ button.history {
 	text-transform: uppercase;
 	font-weight: bold;
 	color: @accent-color;
-	
+
 	.transition();
 
 	&:hover {

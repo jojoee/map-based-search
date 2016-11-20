@@ -14,10 +14,13 @@
 Route::get('/', 'MapController@index');
 Route::get('get/{city}', 'MapController@getTweets');
 
-Route::get('search', function() { return Redirect::to('/'); });
-Route::get('search/get', function()
-{
-	if (! Request::ajax()) return Redirect::to('/');
+Route::get('search', function () {
+	return Redirect::to('/');
+});
+Route::get('search/get', function () {
+	if ( ! Request::ajax()) {
+		return Redirect::to('/');
+	}
 
 	$cookieName = Config::get('constants.historyCookieName');
 	$history = Cookie::get($cookieName);
@@ -25,10 +28,13 @@ Route::get('search/get', function()
 	return Response::make($history);
 });
 
-Route::get('search/update', function() { return Redirect::to('/'); });
-Route::get('search/update/{city}', function($city)
-{
-	if (! Request::ajax()) return Redirect::to('/');
+Route::get('search/update', function () {
+	return Redirect::to('/');
+});
+Route::get('search/update/{city}', function ($city) {
+	if ( ! Request::ajax()) {
+		return Redirect::to('/');
+	}
 
 	$cookieName = Config::get('constants.historyCookieName');
 	$history = updateSearchHistory(Cookie::get($cookieName), $city);
@@ -38,5 +44,9 @@ Route::get('search/update/{city}', function($city)
 	return Response::make('OK')->withCookie($cookie);
 });
 
-Route::get('jasmine', function() { return View::make('tests.jasmine'); });
-App::missing(function($exception) { return Redirect::to('/'); });
+Route::get('jasmine', function () {
+	return View::make('tests.jasmine');
+});
+App::missing(function ($exception) {
+	return Redirect::to('/');
+});
