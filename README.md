@@ -1,77 +1,70 @@
 # Map Based Search
 
-Simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map. (**support english only**)
+Simple responsive website that allows the user to search for a city  and displays tweets that mention the city on a map. (support english only)
 
-## Usage / Featured
+## Getting Started
+1. Setup web server
+2. Install [Composer](https://getcomposer.org/)
+3. Browse to project directory
+4. Install dependencies: `composer install`
+5. Setup config
+```
+5.1 Server environment variable
+SetEnv MBS_SITE_ENV "prod"
+SetEnv MBS_SERVER_NAME "mbs.jojoee.com"
 
-- User searches for a city
-- Search tweets that contain `city` name, within 50km of location and contain coordinate data
-- Use profile picture as the `Marker`
-- When click the `Marker` then display `info window` which contain tweet's text and tweet's time
-- Search history (history of searches made) order by most recent first
-- Map by Google Map
-- Single Application Page (SPA)
-- Responsive
-- Compatibility with - IE10+, Chrome, Firefox, Safari Window, Safari iPhone 5 8.1.1
+5.2 Database
+app/config/database.php
+app/config/local/database.php
 
-## Code / Development
+5.3 Constant
+app/config/constants.php
+```
+6. Enjoy
 
-- MVC by Laravel
-- PHP Code styling: [Laravel](http://laravel.com/docs/4.2/contributions) (PSR-0 and PSR-1)
-- Javascript Code styling: [Airbnb JavaScript Style Guide() {](https://github.com/airbnb/javascript)
-- PHP DocBlockr: [phpDocumentor](http://phpdoc.org/)
+## Screenshot
+
+[![Screenshot 1](https://raw.githubusercontent.com/jojoee/map-based-search/master/screenshot/screenshot1.jpg "Screenshot 1")](http://mbs.jojoee.com/)
+
+## Feature
+- [x] Responsive
+- [x] User searches for a city and display user (that tweet the city) profile picture as the `Marker`, show between 10-20 tweets
+- [x] Search tweets (tweet's radius: 50km) that contain `city` name, within 50km of location and contain coordinate data
+- [x] When click the `Marker` then display `info window` which contain tweet's text and tweet's time
+- [x] Search history (history of searches made) order by most recent first
+- [x] Cache tweet (Backend): MySQL (1 hour for each location)
+- [ ] Cache tweet (Frontend): localStorage
+- [x] History search: Use cookies to identify the user (20 maximum search history item)
+- [x] Map by [Google Maps](https://www.google.co.th/maps) with [Snazzy Maps](https://snazzymaps.com/)
+- [ ] Task runner: [gulp.js](http://gulpjs.com/), also create build Frontend script
+- [ ] Implement ORM (e.g. [Doctrine](http://www.doctrine-project.org/))
+- [ ] Upgrade to Laravel 5.3
+- [ ] Add deployment script (e.g. [Deployer](https://deployer.org/))
+- [ ] City auto completion (or city validation)
+- [ ] Popup error message when not found any tweet from search
+- [x] Database migration & seed
+- [ ] Add redundant resources
+- [ ] Test (Backend): User acceptance
+- [ ] Test (Backend): Unit
+- [ ] Test (Backend): Functional
+- [ ] Test (Frontend): Unit
+- [ ] Test (Frontend): E2E
+- [ ] Refactor (Backend): Route
+- [ ] Refactor (Backend): Model
+- [ ] Refactor (Backend): Separate business logic out off controller (create Service for business logic)
+- [ ] Refactor (Javascript): Convert to module pattern
+- [ ] Using `faker` for dummy stuff
+
+## Compatibility
+- Google Chrome 51+
+- Internet Explorer 10+
+- Mozilla Firefox 43+
+- Opera 41+
+- Safari (desktop) 5+
+
+## Note
+- Laravel 4.2
 - Javascript DocBlockr: [JSDoc](http://usejsdoc.org/)
-- Default timezone: Asia/Bangkok
-- Default google map zoom level: 12
-- Default center of google map: Bangkok (13.7563, 100.5018)
-- History: using cookies to identify the user (20 maximum search history item)
-- Always use uppercase when compare text
-- Default radius of tweet search: 50km (can config by PHP code on the MapController.php)
-- Tweet cache: 1 hour (for each location) (can config by PHP code on the MapController.php)
-- Store tweet cache into MySQL
-- The repository isn't include `vendor` folder, please run `composer install`
-- Database index: `city` and `updated_at` field
-- Default google map style: [light dream](https://snazzymaps.com/style/134/light-dream)
-- Javascript unit test with [Jasmine](http://jasmine.github.io/) - [see test results](http://mbs.jojoee.com/jasmine) (in progress)
-
-## Future update
-
-- City autocomplete
-- Error message when not found any tweet
-- PHP unit test
-- Create Laravel database migration & seed
-- Add redundant resources
-- Google map style setting
-- Add security protection
-- Update debug mode
-- Update get() logic in MapController (use save() method instead)
-- High-level Documentatin
-- Use `post` instead of `get` on ajax of updateSearchHistory() (app.js)
-- How to handle `PHP Maximum request timeout` when ajax request tweets
-
-## Components
-
-- [Laravel 4.2](http://laravel.com/) - [MIT](https://github.com/laravel/laravel)
-- [jQuery 2.1.4](https://jquery.com/) - [MIT](https://jquery.org/license/)
-- [Meyer's reset CSS 2.0](http://meyerweb.com/eric/tools/css/reset/) - [Public Domain](https://creativecommons.org/licenses/publicdomain/)
-- [Font Awesome 4.3.0](http://fortawesome.github.io/Font-Awesome/) - [MIT](http://fortawesome.github.io/Font-Awesome/license/)
-- [TwitterOAuth 0.5.3](https://twitteroauth.com/) - [License](https://github.com/abraham/twitteroauth/blob/master/LICENSE.md)
-- [Jasmine 2.2.1](http://jasmine.github.io/) - [MIT](https://github.com/jasmine/jasmine)
-
-## Google map style
-
-Currently, the google map style setting is not available. [CC BY-SA 3.0](https://snazzymaps.com/about)
-
-- [Subtle Grayscale](https://snazzymaps.com/style/15/subtle-grayscale)
-- [Shades of Grey](https://snazzymaps.com/style/38/shades-of-grey)
-- [Blue water](https://snazzymaps.com/style/25/blue-water)
-- [Pale Dawn](https://snazzymaps.com/style/1/pale-dawn)
-- [Blue Essence](https://snazzymaps.com/style/61/blue-essence)
-- [Apple Maps-esque](https://snazzymaps.com/style/42/apple-maps-esque)
-- [Midnight Commander](https://snazzymaps.com/style/2/midnight-commander)
-- [Light Monochrome](https://snazzymaps.com/style/29/light-monochrome)
-- [Retro](https://snazzymaps.com/style/18/retro)
-- [Paper](https://snazzymaps.com/style/39/paper)
-- [Flat Map](https://snazzymaps.com/style/53/flat-map)
-- [Greyscale](https://snazzymaps.com/style/5/greyscale)
-- [light dream](https://snazzymaps.com/style/134/light-dream)
+- PHP Code styling: [PhpStorm Laravel Code Style](https://github.com/michaeldyrynda/phpstorm-laravel-code-style) instead of [Laravel 4.2](http://laravel.com/docs/4.2/contributions)
+- PHP DocBlockr: [phpDocumentor](http://phpdoc.org/)
+- Javascript Code styling: [Airbnb](https://github.com/airbnb/javascript)
