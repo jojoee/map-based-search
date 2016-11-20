@@ -20,7 +20,6 @@ app/config/local/database.php
 5.3 Constant
 app/config/constants.php
 ```
-6. Enjoy
 
 ## Screenshot
 
