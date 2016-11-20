@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
 	var $zoomLevelInput = $('#zoom-level');
 	var $latInput = $('#lat');
 	var $lngInput = $('#lng');
-	var $cityForm = $('#city-form');
+	var $searchBtn = $('button.search');
 	var $cityInput = $('#city');
 	var $removeMarkersBtn = $('.remove-all-markers');
 	var $addTextOverlayBtn = $('.add-text-overlay');
@@ -716,7 +716,13 @@ jQuery(document).ready(function ($) {
 	 * Open history panel when click 'History' button
 	 */
 	$historyBtn.on('click', function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		window.event.cancelBubble = true;
+
 		openHistoryPanel();
+
+		return false;
 	});
 
 	/**
@@ -741,12 +747,11 @@ jQuery(document).ready(function ($) {
 	});
 
 	/**
-	 * When submit the form then get tweets and update the map
+	 * When click sarch button then get tweets and update the map
 	 */
-	$cityForm.on('submit', function (e) {
+	$searchBtn.on('click', function (e) {
 		e.preventDefault();
-		if (debugMode) logText('Form submit');
-
+		if (debugMode) logText('Search city');
 		performSearchTweets();
 
 		return false;

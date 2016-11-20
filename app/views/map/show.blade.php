@@ -41,7 +41,7 @@
 
 	{{ Form::open(['id' => 'city-form']) }}
 	<div class="city-box">{{ Form::text('city', Input::old('city'), ['placeholder' => 'City name', 'id' => 'city', 'required' => 'required']) }}</div>
-	<div class="submit-box">{{ Form::submit('Search') }}</div>
+	<button class="search btn">Search</button>
 	<button class="history btn">History</button>
 	{{ Form::close() }}
 </div><!-- #map-config -->
