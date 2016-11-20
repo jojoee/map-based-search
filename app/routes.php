@@ -42,9 +42,6 @@ Route::get('search/update/{city}', function ($city) {
 	return Response::make('OK')->withCookie($cookie);
 });
 
-Route::get('jasmine', function () {
-	return View::make('tests.jasmine');
-});
 App::missing(function ($exception) {
 	return Redirect::to('/');
 });
